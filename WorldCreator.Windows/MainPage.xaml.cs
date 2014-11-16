@@ -26,5 +26,37 @@ namespace WorldCreator
         {
             this.InitializeComponent();
         }
+
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.HidePages();
+            Canvas.SetZIndex(this.GamePage, 1);
+        }
+
+        private void HighScoresButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.HidePages();
+            Canvas.SetZIndex(this.HighScoresPage, 1);
+        }
+
+        private void AboutButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.HidePages();
+            Canvas.SetZIndex(this.AboutPage, 1);
+        }
+
+        private void ProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.HidePages();
+            Canvas.SetZIndex(this.ProfilePage, 1);
+        }
+
+        private void HidePages()
+        {
+            Canvas.SetZIndex(this.AboutPage, 0);
+            Canvas.SetZIndex(this.HighScoresPage, 0);
+            Canvas.SetZIndex(this.ProfilePage, 0); 
+            Canvas.SetZIndex(this.GamePage, 0);
+        }
     }
 }
