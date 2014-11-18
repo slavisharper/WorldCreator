@@ -6,6 +6,7 @@
     public class PlayerViewModel : BaseViewModel
     {
         private IList<AchievmentViewModel> achievments;
+        private string name;
 
         public PlayerViewModel()
             :this("Unnamed")
@@ -31,7 +32,15 @@
             this.CombosCount = combos;
         }
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return this.name; }
+            set
+            {
+                this.name = value;
+                this.OnPropertyChanged("Name");
+            }
+        }
 
         public int Points { get; set; }
 

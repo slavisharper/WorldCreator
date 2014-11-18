@@ -14,8 +14,6 @@ namespace WorldCreator.Models
         [Unique, MaxLength(30)]
         public string Name { get; set; }
 
-        public int Place { get; set; }
-
         public int Points { get; set; }
 
         public int CombosCount { get; set; }

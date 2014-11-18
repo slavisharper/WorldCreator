@@ -8,11 +8,13 @@ using WorldCreator.Data;
 using WorldCreator.GameLogic;
 using WorldCreator.Models;
 
-    public class MainViewModel
+    public class MainViewModel : BaseViewModel
     {
         private const string PlayerNameKey = "name";
         private ApplicationDataContext dataContext;
         private CombinatorEngine comboEngine;
+        private PlayerViewModel currentPlayer;
+
         public MainViewModel()
         {
             this.dataContext = ApplicationDataContext.Instance;
@@ -20,7 +22,15 @@ using WorldCreator.Models;
             GameInitialize();
         }
 
-        public PlayerViewModel Player { get; set; }
+        public PlayerViewModel Player
+        {
+            get { return this.currentPlayer; }
+            set
+            {
+                this.currentPlayer = value;
+                this.OnPropertyChanged("Player");
+            }
+        }
 
         public bool IsPlayerLogged { get; set; }
 
@@ -55,6 +65,8 @@ using WorldCreator.Models;
             {
                 player = await this.dataContext.LoadInitialPlayer(playerName);
                 IEnumerable<ItemViewModel> initialModels = CombinationsGetter.BasicItems;
+                IEnumerable<Item> dbItems = ModelParser.ParseToItems(initialModels);
+                await this.dataContext.AddMultipleItemsAsync(dbItems);
             }
 
             this.LoadPlayerData(player);
@@ -62,8 +74,8 @@ using WorldCreator.Models;
 
         private void LoadPlayerData(Player player)
         {
-            this.Player = ModelParser.ParseFullPlayerData(player, dataContext);
-            this.Game = ModelParser.ParseGameData(dataContext);
+            this.Player = ModelParser.ParseToPlayerViewModel(player);
+            this.Game = ModelParser.ParseGameData(player);
             this.IsPlayerLogged = true;
             ApplicationDataContainer localData = ApplicationData.Current.LocalSettings;
             localData.Values[PlayerNameKey] = player.Name;

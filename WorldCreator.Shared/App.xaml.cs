@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using WorldCreator.Common;
+using WorldCreator.Models.Parse;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -39,6 +40,7 @@ namespace WorldCreator
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
+            ParseObject.RegisterSubclass<HighScore>();
             ParseClient.Initialize("LJTsn7jBOnb0g5fQP6PA0opmOzjepW9wy2AnrM6S", "wffU2aNXu73vtBBj2jwuqK7eZ4VorD2PRafuBjq9");
         }
 

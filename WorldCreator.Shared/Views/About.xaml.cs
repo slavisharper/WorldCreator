@@ -22,6 +22,7 @@ namespace WorldCreator.Views
         public About()
         {
             this.InitializeComponent();
+            
         }
     }
 }

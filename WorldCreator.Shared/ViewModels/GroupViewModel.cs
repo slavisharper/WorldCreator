@@ -6,6 +6,8 @@
     public class GroupViewModel : BaseViewModel
     {
         private IList<ItemViewModel> items;
+        private const string IconPathFormatString = "Images/{0}.png";
+        private string iconPath;
 
         public GroupViewModel()
             :this("", null)
@@ -16,12 +18,22 @@
         {
             this.Items = new List<ItemViewModel>(groupItems);
             this.Name = name;
-            this.IconPath = name.ToLower() + ".png";
+            this.IconPath = name.ToLower();
         }
 
         public string Name { get; set; }
 
-        public string IconPath { get; set; }
+        public string IconPath
+        {
+            get
+            {
+                return this.iconPath;
+            }
+            private set
+            {
+                this.iconPath = string.Format(IconPathFormatString, value);
+            }
+        }
 
         public IList<ItemViewModel> Items
         {

@@ -29,6 +29,7 @@ namespace WorldCreator
             this.DataContext = new MainViewModel();
         }
 
+        #region Navigation
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
             this.HidePages();
@@ -60,5 +61,7 @@ namespace WorldCreator
             Canvas.SetZIndex(this.ProfilePage, 0); 
             Canvas.SetZIndex(this.GamePage, 0);
         }
+
+        #endregion
     }
 }

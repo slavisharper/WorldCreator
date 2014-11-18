@@ -13,7 +13,7 @@
         public GameViewModel()
         { }
 
-        public GameViewModel(IEnumerable<ItemViewModel> itemsOnBoard, IEnumerable<GroupViewModel> playerGroups)
+        public GameViewModel(IEnumerable<ItemViewModel> itemsOnBoard, ObservableCollection<GroupViewModel> playerGroups)
         {
             this.ItemsOnBoard = itemsOnBoard;
             this.PlayerGroups = playerGroups;
@@ -44,7 +44,7 @@
             }
         }
 
-        public IEnumerable<GroupViewModel> PlayerGroups 
+        public ObservableCollection<GroupViewModel> PlayerGroups 
         {
             get
             {

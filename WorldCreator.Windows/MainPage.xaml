@@ -6,6 +6,7 @@
     xmlns:views="using:WorldCreator.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:WorldCreator.ViewModels"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -13,21 +14,22 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="20" />
             <Setter Property="FontSize" Value="24" />
-            <Setter Property="Width" Value="200" />
+            <Setter Property="Width" Value="150" />
         </Style>
     </Page.Resources>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" 
                      VerticalAlignment="Stretch"
                     Background="#FF860FD8">
             <TextBlock HorizontalAlignment="Center"
                        Margin="10, 40, 10, 10"
-                       FontSize="36" 
+                       FontSize="30" 
+                       FontWeight="Bold"
                        FontFamily="Arial Black"
                        Foreground="#FFFBFBFB">
                 World Creator
@@ -59,7 +61,7 @@
         </StackPanel>
         <Grid Grid.Column="1" 
               Name="PageContainerGrid">
-            <Grid Canvas.ZIndex="0" 
+            <Grid Canvas.ZIndex="1" 
                   Background="LightCoral"
                   Name="StartPage">
                 <TextBlock FontSize="46"
@@ -71,8 +73,20 @@
                              VerticalAlignment="Center"
                              Height="200"
                              Width="200"/>
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           FontSize="36"
+                           Margin="10, 10, 10, 250"
+                           Text="Current Profile"/>
+                <TextBox HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           FontSize="30"
+                           IsEnabled="False"
+                           Width="300"
+                           Text="{Binding Player.Name}"
+                           Margin="10, 10, 10, 180"/>
             </Grid>
-            <Grid Canvas.ZIndex="1" 
+            <Grid Canvas.ZIndex="0" 
                   Background="Aqua"
                   Name="GamePage">
                 <Grid.RowDefinitions>

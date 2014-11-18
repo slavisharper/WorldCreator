@@ -55,16 +55,12 @@
             player.Points = 0;
             player.HighestLevelCleared = 0;
             player.HighestLevelElement = 0;
-            player.Place = -1;
-            await connection.InsertAsync(player).ContinueWith((p) => {
-                player.ID = p.Id;
-                this.currentPlayer = player;
-            });
-
+            await connection.InsertAsync(player);
+            this.currentPlayer = await connection.Table<Player>().Where(p => p.Name == playerName).FirstOrDefaultAsync();
             return player;
         }
 
-        public async void AddItem(Item item)
+        public async Task AddItemAsync(Item item)
         {
             var query = this.connection.Table<Item>().Where(i => i.Name == item.Name);
             var dbItems = await query.ToListAsync();
@@ -82,11 +78,11 @@
             this.InsertPlayerItem(dbItem.ID, currentPlayer.ID, true);
         }
 
-        public void AddMultipleItems(IEnumerable<Item> items)
+        public async Task AddMultipleItemsAsync(IEnumerable<Item> items)
         {
             foreach (var item in items)
             {
-                this.AddItem(item);
+                await this.AddItemAsync(item);
             }
         }
 
@@ -159,7 +155,7 @@
         {
             var query = this.connection.QueryAsync<Item>("select I.* from PlayerItems PI " +
                                                                    "join Items I " +
-                                                                   "on ItemId = I.ID " +
+                                                                   "on PI.ItemId = I.ID " +
                                                                    "where PI.PlayerId = " + currentPlayer.ID);
             var items = query.Result;
             return items;
