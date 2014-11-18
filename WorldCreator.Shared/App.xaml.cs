@@ -63,7 +63,7 @@ namespace WorldCreator
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
-
+                
                 SuspensionManager.RegisterFrame(rootFrame, "appFrame");
 
                 // TODO: change this value to a cache size that is appropriate for your application

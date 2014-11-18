@@ -16,20 +16,34 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)AttachedProperties\CanvasExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\DelegateCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ModelParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\NavigationHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\ObservableDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SuspensionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\ApplicationDataContexxt.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\SQLite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\SQLiteAsync.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ListExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameLogic\Combination.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameLogic\CombinationsGetter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameLogic\CombinatorEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Achievment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Item.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PlayerAchievments.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PlayerItems.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AchievmentViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GameViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GroupViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ItemViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PlayerStatusViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PlayerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\HighScores.xaml.cs">
       <DependentUpon>HighScores.xaml</DependentUpon>
     </Compile>
@@ -42,11 +56,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Images\" />
-    <Folder Include="$(MSBuildThisFileDirectory)GameLogic\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Commands\" />
     <Folder Include="$(MSBuildThisFileDirectory)Styles\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Views\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\HighScores.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -16,9 +16,12 @@
         {
             this.Items = new List<ItemViewModel>(groupItems);
             this.Name = name;
+            this.IconPath = name.ToLower() + ".png";
         }
 
         public string Name { get; set; }
+
+        public string IconPath { get; set; }
 
         public IList<ItemViewModel> Items
         {

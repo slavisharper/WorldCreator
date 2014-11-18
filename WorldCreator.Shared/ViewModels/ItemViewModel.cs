@@ -18,6 +18,10 @@
             this.GroupName = groupName;
         }
 
+        public double X { get; set; }
+
+        public double Y { get; set; }
+
         public string Name { get; set; }
 
         public string IconPath { get; set; }

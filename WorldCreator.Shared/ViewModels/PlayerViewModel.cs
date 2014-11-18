@@ -13,33 +13,35 @@
         }
 
         public PlayerViewModel(string name)
-            :this(name, "")
+            :this(name, null)
         {
         }
 
-        public PlayerViewModel(string name, string nationality)
-            :this(name, nationality, new List<AchievmentViewModel>())
-        {
-        }
-
-        public PlayerViewModel(string name, string nationality, IEnumerable<AchievmentViewModel> achievments)
-            :this(name, nationality, achievments, null)
-        {
-        }
-
-        public PlayerViewModel(string name, string nationality, IEnumerable<AchievmentViewModel> achievments, PlayerStateViewModel state)
+        public PlayerViewModel(string name, IEnumerable<AchievmentViewModel> achievments)
         {
             this.Name = name;
-            this.Nationality = nationality;
             this.Achievments = achievments;
-            this.State = state;
+        }
+
+        public PlayerViewModel(string name, IEnumerable<AchievmentViewModel> achievments, int points, int combos)
+        {
+            this.Name = name;
+            this.Achievments = achievments;
+            this.Points = points;
+            this.CombosCount = combos;
         }
 
         public string Name { get; set; }
 
-        public string Nationality { get; set; }
+        public int Place { get; set; }
 
-        public PlayerStateViewModel State { get; set; }
+        public int Points { get; set; }
+
+        public int CombosCount { get; set; }
+
+        public int HighestLevelElement { get; set; }
+
+        public int HighestLevelCleared { get; set; }
 
         public IEnumerable<AchievmentViewModel> Achievments
         {
