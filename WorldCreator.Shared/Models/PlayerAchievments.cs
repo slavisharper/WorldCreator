@@ -6,7 +6,7 @@ using System.Text;
 
 namespace WorldCreator.Models
 {
-    [Table("PlayerChievments")]
+    [Table("PlayerAchievments")]
     public class PlayerAchievments
     {
         [Indexed]

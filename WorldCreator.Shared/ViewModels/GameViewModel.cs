@@ -1,12 +1,14 @@
 ﻿namespace WorldCreator.ViewModels
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using WorldCreator.Extensions;
 
     public class GameViewModel
     {
-        private IList<ItemViewModel> itemsOnBoard;
-        private IList<GroupViewModel> groups;
+        private ObservableCollection<ItemViewModel> itemsOnBoard;
+        private ObservableCollection<GroupViewModel> groups;
+        private GroupViewModel selectedGroup;
 
         public GameViewModel()
         { }
@@ -21,12 +23,20 @@
 
         public IEnumerable<ItemViewModel> ItemsOnBoard
         {
-            get { return this.itemsOnBoard; }
+            get 
+            {
+                if (this.itemsOnBoard == null)
+                {
+                    this.ItemsOnBoard = new ObservableCollection<ItemViewModel>();
+                }
+
+                return this.itemsOnBoard;
+            }
             set
             {
                 if (this.itemsOnBoard == null)
                 {
-                    this.itemsOnBoard = new List<ItemViewModel>();
+                    this.itemsOnBoard = new ObservableCollection<ItemViewModel>();
                 }
 
                 this.itemsOnBoard.Clear();
@@ -36,12 +46,20 @@
 
         public IEnumerable<GroupViewModel> PlayerGroups 
         {
-            get { return this.groups; }
+            get
+            {
+                if (this.groups == null)
+                {
+                    this.PlayerGroups = new ObservableCollection<GroupViewModel>();
+                }
+
+                return this.groups;
+            }
             set
             {
                 if (this.groups == null)
                 {
-                    this.groups = new List<GroupViewModel>();
+                    this.groups = new ObservableCollection<GroupViewModel>();
                 }
 
                 this.groups.Clear();

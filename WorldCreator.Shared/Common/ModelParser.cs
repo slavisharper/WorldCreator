@@ -10,9 +10,9 @@ namespace WorldCreator.Common
 {
     public class ModelParser
     {
-        public static async Task<PlayerViewModel> ParseFullPlayerData(Player player, ApplicationDataContext data)
+        public static PlayerViewModel ParseFullPlayerData(Player player, ApplicationDataContext data)
         {
-            IEnumerable<Achievment> achievments = await data.GetPlayerAchievments();
+            IEnumerable<Achievment> achievments = data.GetPlayerAchievments();
             IEnumerable<AchievmentViewModel> parsedAchievments = ParseAchievments(achievments);
             PlayerViewModel parsedPlayer = new PlayerViewModel(player.Name, parsedAchievments, player.Points, player.CombosCount);
             parsedPlayer.HighestLevelCleared = player.HighestLevelCleared;
@@ -20,15 +20,17 @@ namespace WorldCreator.Common
             return parsedPlayer;
         }
 
-        public static async Task<GameViewModel> ParseGameData(ApplicationDataContext data)
+        public static GameViewModel ParseGameData(ApplicationDataContext data)
         {
             // TO DO
             GameViewModel gameVM = new GameViewModel();
 
-            IEnumerable<Item> playerItems = await data.GetPlayerItems();
-
+            IEnumerable<Item> playerItems = data.GetPlayerItems();
+            IEnumerable<Item> itemsOnBoard = data.GetPlayerItemsOnBoard();
             return gameVM;
         }
+
+
 
         private static IEnumerable<AchievmentViewModel> ParseAchievments(IEnumerable<Achievment> list)
         {
@@ -42,7 +44,7 @@ namespace WorldCreator.Common
             return achievments;
         }
 
-        private IEnumerable<ItemViewModel> ParseItems(IEnumerable<Item> items)
+        private static IEnumerable<ItemViewModel> ParseItems(IEnumerable<Item> items)
         {
             List<ItemViewModel> parsedItems = new List<ItemViewModel>();
             foreach (var item in items)

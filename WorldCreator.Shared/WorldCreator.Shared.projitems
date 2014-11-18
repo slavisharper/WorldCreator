@@ -31,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GameLogic\CombinatorEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Achievment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Item.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Parse\HighScore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PlayerAchievments.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PlayerItems.cs" />
@@ -56,7 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Images\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Styles\" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Views\About.xaml">

@@ -21,6 +21,11 @@
             this.items = combosGetter.GetAllItems();
         }
 
+        public static IEnumerable<ItemViewModel> BasicItems
+        {
+            get { return CombinationsGetter.BasicItems; }
+        }
+
         public ItemViewModel PerformCombination(Combination combination)
         {
             var possibleCombos = this.combosByName[combination.FirstElementName];

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Parse;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -38,6 +39,7 @@ namespace WorldCreator
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
+            ParseClient.Initialize("LJTsn7jBOnb0g5fQP6PA0opmOzjepW9wy2AnrM6S", "wffU2aNXu73vtBBj2jwuqK7eZ4VorD2PRafuBjq9");
         }
 
         /// <summary>

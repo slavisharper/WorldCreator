@@ -59,7 +59,7 @@
         </StackPanel>
         <Grid Grid.Column="1" 
               Name="PageContainerGrid">
-            <Grid Canvas.ZIndex="1" 
+            <Grid Canvas.ZIndex="0" 
                   Background="LightCoral"
                   Name="StartPage">
                 <TextBlock FontSize="46"
@@ -72,10 +72,27 @@
                              Height="200"
                              Width="200"/>
             </Grid>
-            <Grid Canvas.ZIndex="0" 
+            <Grid Canvas.ZIndex="1" 
                   Background="Aqua"
                   Name="GamePage">
-                <TextBlock FontSize="36">GAME PAGE</TextBlock>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="7*"/>
+                </Grid.RowDefinitions>
+                <ScrollViewer Grid.Row="1"
+                              Width="160"
+                              HorizontalAlignment="Left">
+                    <StackPanel Name="SelectedItemsPanel"
+                            Width="150"
+                                Background="DeepPink"
+                             HorizontalAlignment="Center"
+                            />
+                </ScrollViewer>
+                <Canvas Grid.Row="1"
+                        Name="GameCanvas"
+                        Background="AntiqueWhite"
+                        Margin="160, 0, 0, 0"/>
+                
             </Grid>
             <Grid Canvas.ZIndex="0" 
                   Background="Bisque"

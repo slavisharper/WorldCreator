@@ -11,10 +11,24 @@
         private const string GameDatabaseName = "wordlcreator.db";
         private SQLiteAsyncConnection connection;
         private Player currentPlayer;
+        private static ApplicationDataContext instance;
 
-        public ApplicationDataContext()
+        private ApplicationDataContext()
         {
             this.connection = new SQLiteAsyncConnection(GameDatabaseName);
+        }
+
+        public static ApplicationDataContext Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new ApplicationDataContext();
+                }
+
+                return instance;
+            }
         }
 
         public async Task<Player> LoadPlayer(string playerName)
@@ -66,6 +80,14 @@
             }
             
             this.InsertPlayerItem(dbItem.ID, currentPlayer.ID, true);
+        }
+
+        public void AddMultipleItems(IEnumerable<Item> items)
+        {
+            foreach (var item in items)
+            {
+                this.AddItem(item);
+            }
         }
 
         public async void AddAchievment(Achievment achievment)
@@ -123,24 +145,35 @@
             }
         }
 
-        public async Task<IEnumerable<Achievment>> GetPlayerAchievments()
+        public IEnumerable<Achievment> GetPlayerAchievments()
         {
-            var query = this.connection.QueryAsync<object>("select A.* from PlayerItems PI " + 
-                                                                   "inner join Achievments A " +
-                                                                   "on AchievmentId = A.ID");        //.Where(a => a.PlayerId == this.currentPlayer.ID);
-            //var query = await this.connection.Table<PlayerAchievments>().ToListAsync();
+            var query = this.connection.QueryAsync<Achievment>("select A.* from PlayerAchievments PA " + 
+                                                                   "join Achievments A " +
+                                                                   "on AchievmentId = A.ID " + 
+                                                                   "where PA.PlayerId = " + currentPlayer.ID);
             var achievments = query.Result;
-            return new List<Achievment>() ;
+            return achievments;
         }
 
-        public async Task<IEnumerable<Item>> GetPlayerItems()
+        public IEnumerable<Item> GetPlayerItems()
         {
-            return null;
+            var query = this.connection.QueryAsync<Item>("select I.* from PlayerItems PI " +
+                                                                   "join Items I " +
+                                                                   "on ItemId = I.ID " +
+                                                                   "where PI.PlayerId = " + currentPlayer.ID);
+            var items = query.Result;
+            return items;
         }
 
-        public async Task<IEnumerable<Item>> GetPlayerItemsOnBoard()
+        public IEnumerable<Item> GetPlayerItemsOnBoard()
         {
-            return null;
+            var query = this.connection.QueryAsync<Item>("select I.* from PlayerItems PI " +
+                                                                   "join Items I " +
+                                                                   "on ItemId = I.ID " +
+                                                                   "where PI.PlayerId = " + currentPlayer.ID +
+                                                                   " and PI.IsOnBoard = 1");
+            var items = query.Result;
+            return items;
         }
 
         public async void UpdatePlayerState(Player player)

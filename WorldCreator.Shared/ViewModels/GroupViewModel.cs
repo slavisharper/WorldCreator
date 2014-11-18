@@ -25,7 +25,15 @@
 
         public IList<ItemViewModel> Items
         {
-            get { return this.items; }
+            get 
+            {
+                if (this.items == null)
+                {
+                    this.Items = new List<ItemViewModel>();
+                }
+
+                return this.items; 
+            }
             set
             {
                 if (this.items == null)
