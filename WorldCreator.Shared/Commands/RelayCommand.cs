@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace WorldCreator.Common
+namespace WorldCreator.Commands
 {
     /// <summary>
     /// A command whose sole purpose is to relay its functionality 

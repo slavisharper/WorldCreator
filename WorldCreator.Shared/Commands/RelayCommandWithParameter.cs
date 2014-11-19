@@ -5,13 +5,14 @@ using System.Windows.Input;
 
 namespace WorldCreator.Commands
 {
-    public class DelegateCommand : ICommand
+    public class RelayCommandWithParameter : ICommand
     {
+        public event EventHandler CanExecuteChanged;
+
         Func<object, bool> canExecute;
         Action<object> executeAction;
-        bool canExecuteCache;
      
-        public DelegateCommand(Action<object> executeAction, Func<object, bool> canExecute)
+        public RelayCommandWithParameter(Action<object> executeAction, Func<object, bool> canExecute = null)
         {
             this.executeAction = executeAction;
             this.canExecute = canExecute;
@@ -19,21 +20,13 @@ namespace WorldCreator.Commands
      
         public bool CanExecute(object parameter)
         {
-            bool temp = canExecute(parameter);
-     
-            if (canExecuteCache != temp)
+            if (this.canExecute == null)
             {
-                canExecuteCache = temp;
-                if (CanExecuteChanged != null)
-                {
-                    CanExecuteChanged(this, new EventArgs());
-                }
+                return true;
             }
      
-            return canExecuteCache;
+            return this.canExecute(parameter);
         }
-     
-        public event EventHandler CanExecuteChanged;
      
         public void Execute(object parameter)
         {

@@ -31,6 +31,13 @@
             }
         }
 
+        public async Task<IEnumerable<string>> PlayerNames()
+        {
+            var players = await this.connection.Table<Player>().ToListAsync();
+            var names = players.Select(p => p.Name);
+            return names;
+        }
+
         public async Task<Player> LoadPlayer(string playerName)
         {
             await this.CreateTables();

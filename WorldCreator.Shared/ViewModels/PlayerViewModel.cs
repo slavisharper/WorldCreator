@@ -52,7 +52,15 @@
 
         public IEnumerable<AchievmentViewModel> Achievments
         {
-            get { return this.achievments; }
+            get
+            {
+                if (this.achievments == null)
+                {
+                    this.achievments = new List<AchievmentViewModel>();
+                }
+
+                return this.achievments;
+            }
             set
             {
                 if (this.achievments == null)

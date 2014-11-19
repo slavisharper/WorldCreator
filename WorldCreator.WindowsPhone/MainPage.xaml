@@ -9,6 +9,83 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock FontSize="30"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Text="Welcome to World Creator"
+                   HorizontalAlignment="Center"/>
 
+        <ProgressRing IsActive="{Binding IsLoading}"
+                      Height="100"
+                      Width="100" />
+
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Bottom"
+                   FontSize="36"
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Text="Choose a profile"/>
+
+        <ComboBox Height="50"
+                  Name="PlayersComboBox"
+                  Margin="10"
+                  Grid.Row="2"
+                  Grid.Column="0"
+                  FontSize="27"
+                  VerticalAlignment="Bottom"
+                  HorizontalAlignment="Stretch"
+                  ItemsSource="{Binding PlayerNames}"/>
+
+        <Button Content="Continue"
+                FontSize="22"
+                Grid.Row="2"
+                Grid.Column="1"
+                CommandParameter="{Binding ElementName=PlayersComboBox, Path=SelectedItem}"
+                Command="{Binding LogExisitnigPlayer}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="5"  />
+
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Bottom"
+                   FontSize="36"
+                   Grid.Row="3"
+                   Grid.ColumnSpan="2"
+                   Grid.Column="0"
+                   Margin="10"
+                   Text="Or create new one"/>
+
+        <TextBox VerticalAlignment="Bottom"
+                 HorizontalAlignment="Stretch"
+                 FontSize="30"
+                 Name="InputPlayerName"
+                 TextAlignment="Center"
+                 PlaceholderText="Username"
+                 Grid.Row="4"
+                 Grid.Column="0"
+                 Height="50"
+                 Margin="10"/>
+        <Button Content="New"
+                FontSize="22"
+                Grid.Row="4"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                CommandParameter="{Binding ElementName=InputPlayerName, Path=Text}"
+                Command="{Binding CreateNewPlayer}"
+                VerticalAlignment="Bottom"
+                Margin="5" />
     </Grid>
 </Page>

@@ -42,19 +42,23 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Button Grid.Row="0" 
+                        IsEnabled="{Binding IsPlayerLogged}"
                         Style="{StaticResource ButtonMenuStyle}"
                         Click="PlayButton_Click"
                         Content="Play"/>
                 <Button Grid.Row="1"
                         Style="{StaticResource ButtonMenuStyle}"
                         Click="ProfileButton_Click"
+                        IsEnabled="{Binding IsPlayerLogged}"
                         Content="Profile"/>
                 <Button Grid.Row="2"
                         Style="{StaticResource ButtonMenuStyle}"
                         Click="HighScoresButton_Click"
+                        IsEnabled="{Binding IsPlayerLogged}"
                         Content="High Scores"/>
                 <Button Grid.Row="3"
                         Style="{StaticResource ButtonMenuStyle}"
+                        IsEnabled="{Binding IsPlayerLogged}"
                         Click="AboutButton_Click"
                         Content="About"/>
             </Grid>
@@ -64,27 +68,7 @@
             <Grid Canvas.ZIndex="1" 
                   Background="LightCoral"
                   Name="StartPage">
-                <TextBlock FontSize="46"
-                           Margin="40"
-                           HorizontalAlignment="Center">
-                    Welcome to World Creator
-                </TextBlock>
-                <ProgressRing HorizontalAlignment="Center"
-                             VerticalAlignment="Center"
-                             Height="200"
-                             Width="200"/>
-                <TextBlock HorizontalAlignment="Center"
-                           VerticalAlignment="Bottom"
-                           FontSize="36"
-                           Margin="10, 10, 10, 250"
-                           Text="Current Profile"/>
-                <TextBox HorizontalAlignment="Center"
-                           VerticalAlignment="Bottom"
-                           FontSize="30"
-                           IsEnabled="False"
-                           Width="300"
-                           Text="{Binding Player.Name}"
-                           Margin="10, 10, 10, 180"/>
+                <views:StartupView></views:StartupView>
             </Grid>
             <Grid Canvas.ZIndex="0" 
                   Background="Aqua"

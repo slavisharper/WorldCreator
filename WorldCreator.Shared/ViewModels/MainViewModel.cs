@@ -1,25 +1,36 @@
 ﻿namespace WorldCreator.ViewModels
 {
     using System.Collections.Generic;
-using System.Threading.Tasks;
-using Windows.Storage;
-using WorldCreator.Common;
-using WorldCreator.Data;
-using WorldCreator.GameLogic;
-using WorldCreator.Models;
+    using System.Collections.ObjectModel;
+    using System.Threading.Tasks;
+    using Windows.Storage;
+    using WorldCreator.Common;
+    using WorldCreator.Extensions;
+    using WorldCreator.Data;
+    using WorldCreator.GameLogic;
+    using WorldCreator.Models;
+    using System.Windows.Input;
+    using WorldCreator.Commands;
 
     public class MainViewModel : BaseViewModel
     {
         private const string PlayerNameKey = "name";
         private ApplicationDataContext dataContext;
-        private CombinatorEngine comboEngine;
         private PlayerViewModel currentPlayer;
+        private ApplicationDataContainer localSettings;
+        private ObservableCollection<string> playerNames;
+        private ICommand commandLogUser;
+        private ICommand commandCreateUser;
+        private bool isLoading;
+        private bool isLogged;
 
         public MainViewModel()
         {
             this.dataContext = ApplicationDataContext.Instance;
-            this.comboEngine = new CombinatorEngine();
-            GameInitialize();
+            this.localSettings = ApplicationData.Current.LocalSettings;
+            this.IsLoading = false;
+            this.IsPlayerLogged = false;
+            ProfileInitialize();
         }
 
         public PlayerViewModel Player
@@ -32,24 +43,115 @@ using WorldCreator.Models;
             }
         }
 
-        public bool IsPlayerLogged { get; set; }
+        public bool IsPlayerLogged 
+        {
+            get { return this.isLogged; }
+            set
+            {
+                this.isLogged = value;
+                this.OnPropertyChanged("IsPlayerLogged");
+            }
+        }
+
+        public bool IsLoading 
+        {
+            get { return this.isLoading; }
+            set
+            {
+                this.isLoading = value;
+                this.OnPropertyChanged("IsLoading");
+            }
+        }
+
+        public IEnumerable<string> PlayerNames
+        {
+            get
+            {
+                if (this.playerNames == null)
+                {
+                    this.PlayerNames = new ObservableCollection<string>();
+                }
+
+                return this.playerNames; 
+            }
+            set
+            {
+                if (this.playerNames == null)
+                {
+                    this.playerNames = new ObservableCollection<string>();
+                }
+
+                this.playerNames.Clear();
+                this.playerNames.AddRange(value);
+            }
+        }
 
         public GameViewModel Game { get; set; }
 
-        private async void GameInitialize()
+        public ICommand CreateNewPlayer 
         {
-            ApplicationDataContainer localData = ApplicationData.Current.LocalSettings;
-            string playerName = localData.Values[PlayerNameKey] as string;
-            if (playerName == null)
+            get
             {
-                // TO DO: Get player name and initialize with initial data
-                await this.ChangePlayer("Unnamed");
+                if (this.commandCreateUser == null)
+                {
+                    this.commandCreateUser = new RelayCommandWithParameter(this.PerformCreatePlayer);
+                }
+
+                return commandCreateUser;
+            }
+        }
+
+        public ICommand LogExisitnigPlayer
+        {
+            get
+            {
+                if (this.commandLogUser == null)
+                {
+                    this.commandLogUser = new RelayCommandWithParameter(this.PerformLogPlayer);
+                }
+
+                return commandLogUser;
+            }
+        }
+
+        private async void PerformLogPlayer(object obj)
+        {
+            this.IsLoading = true;
+            string name = obj as string;
+            if (name == null || name.Length < 3)
+            {
+                // TO DO Show alert
             }
             else
             {
-                // TO DO: Loading screen
-                await this.LoadPlayer(playerName);
+                await this.LoadPlayer(name);
+                this.IsLoading = false;
+                this.IsPlayerLogged = true;
             }
+        }
+
+        private async void PerformCreatePlayer(object obj)
+        {
+            this.IsLoading = true;
+            string name = obj as string;
+            if (name == null || name.Length < 3 || name.Length > 20)
+            {
+                // TO DO Show alert
+            }
+            else
+            {
+                await this.ChangePlayer(name);
+                this.playerNames.Add(name);
+                this.IsLoading = false;
+                this.IsPlayerLogged = true;
+            }
+        }
+
+        private async void ProfileInitialize()
+        {
+            string playerName = this.localSettings.Values[PlayerNameKey] as string;
+            this.PlayerNames = await this.dataContext.PlayerNames();
+            IsPlayerLogged = false;
         }
 
         private async Task LoadPlayer(string playerName)
@@ -77,8 +179,7 @@ using WorldCreator.Models;
             this.Player = ModelParser.ParseToPlayerViewModel(player);
             this.Game = ModelParser.ParseGameData(player);
             this.IsPlayerLogged = true;
-            ApplicationDataContainer localData = ApplicationData.Current.LocalSettings;
-            localData.Values[PlayerNameKey] = player.Name;
+            this.localSettings.Values[PlayerNameKey] = player.Name;
         }
     }
 }

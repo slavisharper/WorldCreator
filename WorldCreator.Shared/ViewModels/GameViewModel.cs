@@ -3,12 +3,14 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using WorldCreator.Extensions;
+    using WorldCreator.GameLogic;
 
     public class GameViewModel
     {
         private ObservableCollection<ItemViewModel> itemsOnBoard;
         private ObservableCollection<GroupViewModel> groups;
         private GroupViewModel selectedGroup;
+        private CombinatorEngine comboEngine;
 
         public GameViewModel()
         { }
@@ -17,6 +19,7 @@
         {
             this.ItemsOnBoard = itemsOnBoard;
             this.PlayerGroups = playerGroups;
+            this.comboEngine = new CombinatorEngine();
         }
 
         public GroupViewModel SelectedGroup { get; set; }
@@ -44,7 +47,7 @@
             }
         }
 
-        public ObservableCollection<GroupViewModel> PlayerGroups 
+        public IEnumerable<GroupViewModel> PlayerGroups 
         {
             get
             {

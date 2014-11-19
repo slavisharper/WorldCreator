@@ -1,0 +1,73 @@
+﻿<UserControl
+    x:Class="WorldCreator.Views.StartupView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WorldCreator.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="768"
+    d:DesignWidth="1024">
+    
+    <Grid>
+        <TextBlock FontSize="46"
+                           Margin="40"
+                           Text="Welcome to World Creator"
+                           HorizontalAlignment="Center"/>
+
+        <ProgressRing Name="MainProgressRing"
+                             IsActive="{Binding IsLoading}"
+                             Height="100"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Bottom"
+                             Width="100" Margin="0,0,0,400"/>
+
+        <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           FontSize="36"
+                           Margin="10, 10, 10, 330"
+                           Text="Choose a profile"/>
+
+        <ComboBox Height="50"
+                          Width="300"
+                          Name="PlayersComboBox"
+                          HorizontalAlignment="Center"
+                          Margin="10, 10, 10, 250"
+                          FontSize="27"
+                          VerticalAlignment="Bottom"
+                          ItemsSource="{Binding PlayerNames}"/>
+
+        <Button Content="Continue"
+                        FontSize="27"
+                        CommandParameter="{Binding ElementName=PlayersComboBox, Path=SelectedItem}"
+                        Command="{Binding LogExisitnigPlayer}"
+                        HorizontalAlignment="Center"
+                         VerticalAlignment="Bottom"
+                        Margin="510, 10, 10, 248"
+                        />
+
+        <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           FontSize="36"
+                           Margin="10, 10, 10, 130"
+                           Text="Or create new one"/>
+
+        <TextBox HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           FontSize="30"
+                         Name="InputPlayerName"
+                         TextAlignment="Center"
+                         PlaceholderText="Username"
+                           Height="50"
+                           Width="300"
+                           Margin="10, 10, 10, 60"/>
+        <Button Content="New"
+                        FontSize="27"
+                        HorizontalAlignment="Center"
+                        CommandParameter="{Binding ElementName=InputPlayerName, Path=Text}"
+                        Command="{Binding CreateNewPlayer}"
+                         VerticalAlignment="Bottom"
+                        Margin="460, 10, 10, 58"
+                        />
+    </Grid>
+</UserControl>
