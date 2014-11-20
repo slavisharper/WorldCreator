@@ -17,9 +17,9 @@ using Windows.UI.Xaml.Navigation;
 
 namespace WorldCreator
 {
-    public sealed partial class StartView : UserControl
+    public sealed partial class MainMenuView : UserControl
     {
-        public StartView()
+        public MainMenuView()
         {
             this.InitializeComponent();
         }

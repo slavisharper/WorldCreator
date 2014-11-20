@@ -25,22 +25,35 @@
                 if (instance == null)
                 {
                     instance = new ApplicationDataContext();
+                    CreateTables(instance);
                 }
 
                 return instance;
             }
         }
 
+        private static void CreateTables(ApplicationDataContext instance)
+        {
+            var result = instance.connection.CreateTablesAsync<Achievment, Item, Player, PlayerItems, PlayerAchievments>().Result;
+        }
+
         public async Task<IEnumerable<string>> PlayerNames()
         {
-            var players = await this.connection.Table<Player>().ToListAsync();
-            var names = players.Select(p => p.Name);
-            return names;
+            int count = await this.connection.Table<Player>().CountAsync();
+            if (count < 1)
+            {
+                return new List<string>();
+            }
+            else
+            {
+                var players = await this.connection.Table<Player>().ToListAsync();
+                var names = players.Select(p => p.Name);
+                return names;
+            }
         }
 
         public async Task<Player> LoadPlayer(string playerName)
         {
-            await this.CreateTables();
             var query = this.connection.Table<Player>().Where(p => p.Name.Equals(playerName));
             var players = await query.ToListAsync();
             if (players.Count < 1)
@@ -56,7 +69,6 @@
 
         public async Task<Player> LoadInitialPlayer(string playerName)
         {
-            await this.CreateTables();
             var player = new Player();
             player.Name = playerName;
             player.Points = 0;
@@ -205,7 +217,7 @@
             this.connection.InsertAsync(playerItems);
         }
 
-        private async Task CreateTables()
+        private async void CreateTables()
         {
             await this.connection.CreateTablesAsync<Achievment, Item, Player, PlayerItems, PlayerAchievments>();
         }

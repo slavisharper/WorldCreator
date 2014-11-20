@@ -23,10 +23,13 @@ namespace WorldCreator
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private MainViewModel model;
+
         public MainPage()
         {
             this.InitializeComponent();
-            this.DataContext = new MainViewModel();
+            model = new MainViewModel();
+            this.DataContext = model;
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
@@ -44,6 +47,53 @@ namespace WorldCreator
             // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
+        }
+
+        private void LogButton_Click(object sender, RoutedEventArgs e)
+        {
+            string name = this.PlayersComboBox.SelectedItem as string;
+            if (name == null || name.Length < 3)
+            {
+                
+            }
+            else
+            {
+                var command = model.LogExisitnigPlayer;
+                command.Execute(name);
+                Navigate();
+            }
+        }
+
+        private void Navigate()
+        {
+            var timer = new DispatcherTimer();
+            timer.Tick += (ev, args) =>
+            {
+                model.IsLoading = true;
+                if (model.IsPlayerLogged)
+                {
+                    timer.Stop();
+                    model.IsLoading = false;
+                    this.Frame.Navigate(typeof(GamePage));
+                }
+            };
+            timer.Interval = new TimeSpan(100);
+            timer.Start();
+        }
+
+        private void NewPlayerButton_Click(object sender, RoutedEventArgs e)
+        {
+             string name = this.PlayersComboBox.SelectedItem as string;
+             if (name == null || name.Length < 3 || name.Length > 20)
+             {
+
+             }
+             else
+             {
+                 var command = model.CreateNewPlayer;
+                 command.Execute(name);
+                 Navigate();
+             }
         }
     }
 }
