@@ -6,12 +6,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:WorldCreator.Views"
+    xmlns:converters="using:WorldCreator.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Grid x:Name="LayoutRoot">
-        <Grid VerticalAlignment="Stretch"
-                  Background="#FF860FD8">
+    <Page.Resources>
+        <converters:PointsConverter x:Key="PointsToStringConvert" />
+        <converters:LogoFontSizeConverter x:Key="LogoFontSizeConverter" />
+    </Page.Resources>
+    
+    <Grid x:Name="LayoutRoot" DataContext="{Binding Game}">
+        <Grid Style="{StaticResource MainMenuContainerStyle}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="2*"/>
@@ -20,14 +24,9 @@
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
-            <TextBlock HorizontalAlignment="Center"
-                        Grid.Row="0"
-                       Margin="10, 40, 10, 10"
-                       FontSize="30" 
-                       FontWeight="Bold"
-                       FontFamily="Arial Black"
-                       Foreground="#FFFBFBFB"
-                           Text="World Creator"/>
+            <TextBlock Style="{StaticResource MainMenuLogoStyle}"
+                       
+                        Grid.Row="0"/>
             <Button Grid.Row="1" 
                         Style="{StaticResource ButtonMenuStyle}"
                         Click="PlayButton_Click"
@@ -45,9 +44,26 @@
                         Style="{StaticResource ButtonMenuStyle}"
                         Click="AboutButton_Click"
                         Content="About"/>
-            <TextBlock Text="Player"
-                       VerticalAlignment="Stretch"
-                       Grid.Row="5"/>
+            <Grid Grid.Row="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding Player.Name}"
+                       FontSize="36"
+                       Style="{StaticResource CenteredText}"
+                       Grid.Row="0"/>
+                <TextBlock Text="{Binding Player.Points, Converter={StaticResource PointsToStringConvert}}"
+                       FontSize="30"
+                       Style="{StaticResource CenteredText}"
+                       Grid.Row="1"/>
+                <Button Content="Change" 
+                        VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                        Click="ChangeButton_Click"
+                        Grid.Row="2"/>
+            </Grid>
         </Grid>
     </Grid>
 </Page>

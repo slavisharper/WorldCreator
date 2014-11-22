@@ -22,8 +22,8 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <local:Item Width="120"
-                                    ManipulationMode="All"
-                                    ManipulationCompleted="AddItem_ManipulationCompleted"/>
+                                ManipulationMode="All"
+                                ManipulationCompleted="AddItem_ManipulationCompleted"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

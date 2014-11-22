@@ -209,8 +209,12 @@
             GroupViewModel group = this.GetGroup(combinedItem.GroupName);
             if (group != null)
             {
-                group.Items.Add(combinedItem);
-                if (group.Name == this.SelectedGroup.Name)
+                if (GetItem(combinedItem.Name, group.Items) == null)
+                {
+                    group.Items.Add(combinedItem);
+                }
+                
+                if (this.SelectedGroup != null && group.Name == this.SelectedGroup.Name)
                 {
                     this.OnPropertyChanged("SelectedGroup");
                     this.SelectedGroup = this.selectedGroup;

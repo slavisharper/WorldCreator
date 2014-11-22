@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using WorldCreator.ViewModels;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -27,29 +28,33 @@ namespace WorldCreator
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
+        private MainViewModel model;
 
         public MainMenuPage()
         {
             this.InitializeComponent();
-
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
         }
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
+            this.Frame.Navigate(typeof(GamePage), model);
         }
 
         private void HighScoresButton_Click(object sender, RoutedEventArgs e)
         {
+            this.Frame.Navigate(typeof(HighScoresPage));
         }
 
         private void AboutButton_Click(object sender, RoutedEventArgs e)
         {
+            this.Frame.Navigate(typeof(AboutPage));
         }
 
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
         {
+            this.Frame.Navigate(typeof(ProfilePage));
         }
 
 
@@ -83,6 +88,8 @@ namespace WorldCreator
         /// session.  The state will be null the first time a page is visited.</param>
         private void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
+            model = e.NavigationParameter as MainViewModel;
+            this.DataContext = model;
         }
 
         /// <summary>
@@ -95,7 +102,7 @@ namespace WorldCreator
         /// serializable state.</param>
         private void NavigationHelper_SaveState(object sender, SaveStateEventArgs e)
         {
-            throw new NotImplementedException();
+            
         }
 
         #region NavigationHelper registration
@@ -121,6 +128,11 @@ namespace WorldCreator
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             this.navigationHelper.OnNavigatedFrom(e);
+        }
+
+        internal void ChangeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.GoBack();
         }
 
         #endregion

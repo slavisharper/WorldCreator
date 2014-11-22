@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Windows.Input;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -33,6 +34,7 @@ namespace WorldCreator
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
+        #region Navigation
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
@@ -52,16 +54,7 @@ namespace WorldCreator
         private void LogButton_Click(object sender, RoutedEventArgs e)
         {
             string name = this.PlayersComboBox.SelectedItem as string;
-            if (name == null || name.Length < 3)
-            {
-                
-            }
-            else
-            {
-                var command = model.LogExisitnigPlayer;
-                command.Execute(name);
-                Navigate();
-            }
+            this.PerformUserCommand(name, model.LogExisitnigPlayer);
         }
 
         private void Navigate()
@@ -74,7 +67,7 @@ namespace WorldCreator
                 {
                     timer.Stop();
                     model.IsLoading = false;
-                    this.Frame.Navigate(typeof(MainMenuPage));
+                    this.Frame.Navigate(typeof(MainMenuPage), model);
                 }
             };
             timer.Interval = new TimeSpan(100);
@@ -84,16 +77,21 @@ namespace WorldCreator
         private void NewPlayerButton_Click(object sender, RoutedEventArgs e)
         {
             string name = this.InputPlayerName.Text;
-             if (name == null || name.Length < 3 || name.Length > 20)
-             {
-
-             }
-             else
-             {
-                 var command = model.CreateNewPlayer;
-                 command.Execute(name);
-                 Navigate();
-             }
+            this.PerformUserCommand(name, model.CreateNewPlayer);
         }
+
+        private void PerformUserCommand(string name, ICommand command)
+        {
+            if (name == null || name.Length < 3 || name.Length > 20)
+            {
+                // TO DO: Show alert
+            }
+            else
+            {
+                command.Execute(name);
+                Navigate();
+            }
+        }
+        #endregion
     }
 }

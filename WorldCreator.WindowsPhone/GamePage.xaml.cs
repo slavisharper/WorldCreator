@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using WorldCreator.ViewModels;
+using WorldCreator.Views;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -27,14 +29,63 @@ namespace WorldCreator
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
+        private MainViewModel model;
+        private const double XDelta = 30;
+        private const float TopScrollViewToGameFieldRatio = 1.2f;
 
         public GamePage()
         {
             this.InitializeComponent();
-
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+        }
+
+        private void AddItem_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            var el = e.OriginalSource as Item;
+            model.Game.AddItemToBoard(el.Name, e.Position.X - XDelta, e.Position.Y);
+        }
+
+        private void MoveItem_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            this.model.Game.CheckForCombination((e.Container as Item).Name);
+        }
+
+        private void MoveItem_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            var element = sender as Item;
+            double x = e.Delta.Translation.X;
+            double y = e.Delta.Translation.Y;
+            double width = this.GamePageRoot.ActualWidth - XDelta;
+            double height = this.GamePageRoot.ActualHeight / TopScrollViewToGameFieldRatio;
+            model.Game.MoveItemOnBoard(element.Name, x, y, width, height);
+        }
+
+        private void Item_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            var el = e.OriginalSource;
+            Item item = null;
+
+            if (el is TextBlock || el is Image)
+            {
+                var grid = (e.OriginalSource as FrameworkElement).Parent as Grid;
+                item = grid.Parent as Item;
+            }
+            else if (el is Grid)
+            {
+                item = (el as Grid).Parent as Item;
+            }
+            else
+            {
+                item = el as Item;
+            }
+
+            if (item != null)
+            {
+                string name = item.Name;
+                model.Game.RemoveItem(name);
+            }
         }
 
         /// <summary>
@@ -54,6 +105,7 @@ namespace WorldCreator
             get { return this.defaultViewModel; }
         }
 
+        #region NavigationHelper registration
         /// <summary>
         /// Populates the page with content passed during navigation.  Any saved state is also
         /// provided when recreating a page from a prior session.
@@ -67,6 +119,8 @@ namespace WorldCreator
         /// session.  The state will be null the first time a page is visited.</param>
         private void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
+            model = e.NavigationParameter as MainViewModel;
+            this.DataContext = model;
         }
 
         /// <summary>
@@ -80,8 +134,6 @@ namespace WorldCreator
         private void NavigationHelper_SaveState(object sender, SaveStateEventArgs e)
         {
         }
-
-        #region NavigationHelper registration
 
         /// <summary>
         /// The methods provided in this section are simply used to allow

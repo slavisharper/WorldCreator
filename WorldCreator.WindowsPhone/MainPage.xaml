@@ -8,82 +8,60 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
-        <TextBlock FontSize="30"
-                   Grid.Row="0"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2"
+    <Grid Style="{StaticResource LighBlueBackgroundTheme}">
+        <TextBlock FontSize="32"
+                   Margin="5, 40, 5, 10"
                    Text="Welcome to World Creator"
                    HorizontalAlignment="Center"/>
 
-        <ProgressRing IsActive="{Binding IsLoading}"
+        <ProgressRing Name="MainProgressRing"
+                      IsActive="{Binding IsLoading}"
                       Height="100"
-                      Width="100" />
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Bottom"
+                      Width="100" Margin="0,0,0,400"/>
 
-        <TextBlock HorizontalAlignment="Center"
-                   VerticalAlignment="Bottom"
-                   FontSize="36"
-                   Grid.Row="1"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2"
+        <TextBlock Style="{StaticResource StartPageHeaderText}" 
+                   Margin="10, 10, 10, 330"
                    Text="Choose a profile"/>
 
-        <ComboBox Height="50"
+        <ComboBox 
+                  Width="250"
                   Name="PlayersComboBox"
-                  Margin="10"
-                  Grid.Row="2"
-                  Grid.Column="0"
+                  HorizontalAlignment="Left"
+                  Margin="10, 10, 10, 240"
                   FontSize="27"
-                  VerticalAlignment="Center"
-                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Bottom"
                   ItemsSource="{Binding PlayerNames}"/>
 
         <Button Content="Continue"
-                FontSize="22"
-                Grid.Row="2"
-                Grid.Column="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Margin="5" Click="LogButton_Click"  />
+                FontSize="20"
+                Click="LogButton_Click"
+                HorizontalAlignment="Right"
+                 VerticalAlignment="Bottom"
+                Margin="10, 10, 10, 240"
+                />
 
-        <TextBlock HorizontalAlignment="Center"
-                   VerticalAlignment="Bottom"
-                   FontSize="36"
-                   Grid.Row="3"
-                   Grid.ColumnSpan="2"
-                   Grid.Column="0"
-                   Margin="10"
+        <TextBlock Style="{StaticResource StartPageHeaderText}" 
+                   Margin="10, 10, 10, 130"
                    Text="Or create new one"/>
 
-        <TextBox VerticalAlignment="Center"
-                 HorizontalAlignment="Stretch"
+        <TextBox HorizontalAlignment="Left"
+                 VerticalAlignment="Bottom"
                  FontSize="30"
                  Name="InputPlayerName"
                  TextAlignment="Center"
                  PlaceholderText="Username"
-                 Grid.Row="4"
-                 Grid.Column="0"
                  Height="50"
-                 Margin="10"/>
-        
+                 Width="250"
+                 Margin="10, 10, 10, 60"/>
         <Button Content="New"
-                FontSize="22"
-                Grid.Row="4"
-                Grid.Column="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Margin="5" 
-                Click="NewPlayerButton_Click" />
+                FontSize="20"
+                Width="50"
+                HorizontalAlignment="Right"
+                Click="NewPlayerButton_Click"
+                VerticalAlignment="Bottom"
+                Margin="10, 10, 10, 58"
+                        />
     </Grid>
 </Page>

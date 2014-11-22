@@ -19,6 +19,7 @@ namespace WorldCreator.Common
             PlayerViewModel parsedPlayer = new PlayerViewModel(player.Name, parsedAchievments, player.Points, player.CombosCount);
             parsedPlayer.HighestLevelCleared = player.HighestLevelCleared;
             parsedPlayer.HighestLevelElement = player.HighestLevelElement;
+            parsedPlayer.Place = player.Place;
             return parsedPlayer;
         }
 
@@ -121,6 +122,7 @@ namespace WorldCreator.Common
             player.HighestLevelCleared = p.HighestLevelCleared;
             player.HighestLevelElement = p.HighestLevelElement;
             player.Name = p.Name;
+            player.Place = p.Place;
             player.Points = p.Points;
             return player;
         }

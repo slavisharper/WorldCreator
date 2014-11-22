@@ -12,15 +12,17 @@
 
     <Page.Resources>
         <converters:PointsConverter x:Key="PointsToStringConvert" />
+        <converters:LogoFontSizeConverter x:Key="LogoFontSizeConverter" />
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
-        <Grid VerticalAlignment="Stretch"
-                  Background="#090974">
+        <Grid Name="MainMenu"
+              Grid.Column="0"
+              Style="{StaticResource MainMenuContainerStyle}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="2*"/>
@@ -29,14 +31,9 @@
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
-            <TextBlock HorizontalAlignment="Center"
-                       Grid.Row="0"
-                       Margin="10, 40, 10, 10"
-                       FontSize="30" 
-                       FontWeight="Bold"
-                       FontFamily="Arial Black"
-                       Foreground="#FFFBFBFB"
-                           Text="World Creator"/>
+            <TextBlock Style="{StaticResource MainMenuLogoStyle}"
+                       FontSize="{Binding ElementName=MainMenu, Path=ActualWidth, Converter={StaticResource LogoFontSizeConverter}}"
+                       Grid.Row="0"/>
             <Button Grid.Row="1" 
                         IsEnabled="{Binding IsPlayerLogged}"
                         Style="{StaticResource ButtonMenuStyle}"
@@ -65,13 +62,11 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="{Binding Game.Player.Name}"
                        FontSize="36"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
+                       Style="{StaticResource CenteredText}"
                        Grid.Row="0"/>
                 <TextBlock Text="{Binding Game.Player.Points, Converter={StaticResource PointsToStringConvert}}"
                        FontSize="30"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
+                       Style="{StaticResource CenteredText}"
                        Grid.Row="1"/>
                 <Button Content="Change" 
                         VerticalAlignment="Center"
@@ -82,29 +77,30 @@
         </Grid>
         <Grid Grid.Column="1" 
               Name="PageContainerGrid">
-            <Grid Canvas.ZIndex="1" 
-                  Background="#7373D9"
-                  Name="StartPage">
+            <Grid Name="StartPage" 
+                  Canvas.ZIndex="1" 
+                   Style="{StaticResource LighBlueBackgroundTheme}" >
                 <views:StartupView></views:StartupView>
             </Grid>
-            <Grid Canvas.ZIndex="0" 
-                  Name="GamePage">
+            <Grid Name="GamePage"
+                  DataContext="{Binding Game}"
+                  Canvas.ZIndex="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.Background>
                     <ImageBrush ImageSource="Images/the_hand.jpg"/>
                 </Grid.Background>
                 <views:GroupsScrollView Grid.Row="0"/>
                 <ScrollViewer Grid.Row="1"
-                              Width="150"
+                              Width="100"
                               Background="LightBlue"
-                              Opacity="0.7"
+                              Opacity="0.8"
                               HorizontalAlignment="Left">
                     <ListView SelectionMode="None"
                               HorizontalAlignment="Center"
-                        ItemsSource="{Binding Game.SelectedGroup.Items}" >
+                        ItemsSource="{Binding SelectedGroup.Items}" >
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Vertical"/>
@@ -112,8 +108,8 @@
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <views:Item Width="100"
-                                    Margin="10, 5"
+                                <views:Item Width="80"
+                                    Margin="0, 5, 0, 5"
                                     ManipulationMode="All"
                                     ManipulationCompleted="AddItem_ManipulationCompleted"/>
                             </DataTemplate>
@@ -123,10 +119,10 @@
                 <views:CanvasListView Grid.Row="1"
                         Name="GameCanvas"
                         SelectionMode="None"
-                        ItemsSource="{Binding Game.ItemsOnBoard}"
+                        ItemsSource="{Binding ItemsOnBoard}"
                         Background="AntiqueWhite"
-                        Opacity="0.7"
-                        Margin="150, 0, 0, 0">
+                        Opacity="0.8"
+                        Margin="100, 0, 0, 0">
                     <views:CanvasListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <Canvas/>
@@ -146,22 +142,24 @@
                     </views:CanvasListView.ItemTemplate>
                 </views:CanvasListView>
             </Grid>
-            <Grid Canvas.ZIndex="0" 
-                  Background="Bisque"
-                  Opacity="0.5"
-                  Name="ProfilePage">
+            <Grid Name="ProfilePage"
+                  Canvas.ZIndex="0" 
+                  Background="#7373D9"
+                  Opacity="0.7"
+                  >
                 <TextBlock FontSize="36">PROFILE PAGE</TextBlock>
                 <views:Profile></views:Profile>
             </Grid>
-            <Grid Canvas.ZIndex="0" 
-                  Background="Black"
-                  Name="HighScoresPage">
+            <Grid Name="HighScoresPage"
+                  Canvas.ZIndex="0" 
+                  Background="Black">
                 <TextBlock FontSize="36">HIGHSCORES PAGE</TextBlock>
                 <views:HighScores></views:HighScores>
             </Grid>
-            <Grid Canvas.ZIndex="0" 
+            <Grid Name="AboutPage" 
+                  Canvas.ZIndex="0" 
                   Background="Cyan"
-                  Name="AboutPage">
+                  >
                 <TextBlock FontSize="36">ABOUT PAGE</TextBlock>
                 <views:About></views:About>
             </Grid>

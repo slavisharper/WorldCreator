@@ -65,15 +65,15 @@
                     new ItemViewModel("Earth", "../Images/earth.png", 0, "Earth")
                 };
 
-                int x = 50;
-                int y = 50;
+                int x = 20;
+                int y = 20;
 
                 foreach (var item in items)
                 {
                     item.Left = x;
                     item.Top = y;
-                    x += 100;
-                    y += 100;
+                    x += 50;
+                    y += 120;
                 }
 
                 return items;

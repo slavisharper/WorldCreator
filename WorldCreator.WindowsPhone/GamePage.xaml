@@ -3,12 +3,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WorldCreator"
+    xmlns:views="using:WorldCreator.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="GamePageRoot" DataContext="{Binding Game}">
 
         <Grid.ChildrenTransitions>
             <TransitionCollection>
@@ -22,14 +23,58 @@
         </Grid.RowDefinitions>
 
         <!-- Title Panel -->
-        <StackPanel Grid.Row="0" Margin="19,0,0,0">
-            <TextBlock Text="MY APPLICATION" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-            <TextBlock Text="page title" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
-        </StackPanel>
+        <views:GroupsScrollView Grid.Row="0" Margin="5"/>
 
         <!--TODO: Content should be placed within the following grid-->
-        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-
+        <Grid Grid.Row="1" x:Name="ContentRoot">
+            <ScrollViewer Grid.Row="1"
+                              Width="80"
+                              Background="LightBlue"
+                              Opacity="0.8"
+                              HorizontalAlignment="Left">
+                <ListView SelectionMode="None"
+                              HorizontalAlignment="Center"
+                        ItemsSource="{Binding SelectedGroup.Items}" >
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <views:Item Width="60"
+                                    Margin="0, 5, 0, 5"
+                                    ManipulationMode="All"
+                                    ManipulationCompleted="AddItem_ManipulationCompleted"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollViewer>
+            <views:CanvasListView Grid.Row="1"
+                        Name="GameCanvas"
+                        SelectionMode="None"
+                        ItemsSource="{Binding ItemsOnBoard}"
+                        Background="AntiqueWhite"
+                        Opacity="0.8"
+                        Margin="80, 0, 0, 0">
+                <views:CanvasListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas/>
+                    </ItemsPanelTemplate>
+                </views:CanvasListView.ItemsPanel>
+                <views:CanvasListView.ItemTemplate>
+                    <DataTemplate>
+                        <views:Item
+                                Width="60"
+                                Canvas.Left="{Binding X}"
+                                Canvas.Top="{Binding Y}"
+                                ManipulationMode="All"
+                                DoubleTapped="Item_DoubleTapped"
+                                ManipulationCompleted="MoveItem_ManipulationCompleted"
+                                ManipulationDelta="MoveItem_ManipulationDelta" />
+                    </DataTemplate>
+                </views:CanvasListView.ItemTemplate>
+            </views:CanvasListView>
         </Grid>
     </Grid>
 </Page>

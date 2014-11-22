@@ -9,4 +9,35 @@
         <Setter Property="FontSize" Value="24" />
         <Setter Property="Width" Value="150" />
     </Style>
+    <Style  TargetType="TextBlock" x:Name="CenteredText">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style TargetType="TextBlock" x:Name="ProfileHeaderStyle" BasedOn="{StaticResource CenteredText}">
+        <Setter Property="FontSize" Value="30" />
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+    <Style TargetType="TextBlock" x:Name="ProfileDataStyle" BasedOn="{StaticResource CenteredText}">
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontStyle" Value="Italic"/>
+    </Style>
+    <Style TargetType="Grid" x:Name="MainMenuContainerStyle">
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="#090974"/>
+    </Style>
+    <Style TargetType="TextBlock" x:Name="MainMenuLogoStyle"  BasedOn="{StaticResource CenteredText}">
+        <Setter Property="Margin"  Value="10"/>
+        <Setter Property="FontSize" Value="36"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="#FFFBFBFB"/>
+        <Setter Property="Text" Value="World Creator"/>
+    </Style>
+    <Style TargetType="TextBlock" x:Name="StartPageHeaderText">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="FontSize" Value="36"/>
+    </Style>
+    <Style TargetType="Grid" x:Name="LighBlueBackgroundTheme">
+        <Setter Property="Background" Value="#7373D9" />
+    </Style>
 </ResourceDictionary>

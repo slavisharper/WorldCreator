@@ -22,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommandWithParameter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SuspensionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\LogoFontSizeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\PointsConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ApplicationDataContexxt.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\SQLite.cs" />

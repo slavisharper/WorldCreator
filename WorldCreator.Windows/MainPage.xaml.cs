@@ -25,8 +25,8 @@ namespace WorldCreator
     public sealed partial class MainPage : Page
     {
         private MainViewModel model;
-        private const double XDelta = 150;
-
+        private const double XDelta = 100;
+        private const float TopScrollViewToGameFieldRatio = 1.2f;
         public MainPage()
         {
             this.InitializeComponent();
@@ -91,8 +91,8 @@ namespace WorldCreator
             var element = sender as Item;
             double x = e.Delta.Translation.X;
             double y = e.Delta.Translation.Y;
-            double width = this.GamePage.ActualWidth - 130;
-            double height = this.GamePage.ActualHeight / 1.2;
+            double width = this.GamePage.ActualWidth - XDelta;
+            double height = this.GamePage.ActualHeight / TopScrollViewToGameFieldRatio;
             model.Game.MoveItemOnBoard(element.Name, x, y, width, height);
         }
 

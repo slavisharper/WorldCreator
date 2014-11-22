@@ -16,7 +16,6 @@
     {
         private const string PlayerNameKey = "name";
         private ApplicationDataContext dataContext;
-        private PlayerViewModel currentPlayer;
         private GameViewModel game;
         private ApplicationDataContainer localSettings;
         private ObservableCollection<string> playerNames;

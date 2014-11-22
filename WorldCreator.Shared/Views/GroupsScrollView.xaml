@@ -13,8 +13,8 @@
                   VerticalScrollBarVisibility="Disabled"
                   Background="#FFE800" 
                   Opacity="0.7" >
-        <ListView ItemsSource="{Binding Game.PlayerGroups}"
-                              SelectedItem="{Binding Game.SelectedGroup, Mode=TwoWay}">
+        <ListView ItemsSource="{Binding PlayerGroups}"
+                  SelectedItem="{Binding SelectedGroup, Mode=TwoWay}">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"/>
@@ -22,7 +22,8 @@
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <local:Item Width="100"
+                    <local:Item Width="80"
+                                Margin="5, 0, 5, 0"
                                 HorizontalAlignment="Center"/>
                 </DataTemplate>
             </ListView.ItemTemplate>

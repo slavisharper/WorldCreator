@@ -9,15 +9,61 @@
     d:DesignHeight="640"
     d:DesignWidth="480">
     
-    <Grid Background="AntiqueWhite">
+    <Grid Background="#034D5F"
+          Width="480">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding Name}" 
-                   Grid.Row="0"/>
-       
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="{Binding Game.Player.Name}" 
+                   Grid.Row="0"
+                   Style="{StaticResource ProfileHeaderStyle}"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   FontSize="36"/>
+        <TextBlock Grid.Row="1"
+                   Grid.Column="0"
+                   Style="{StaticResource ProfileHeaderStyle}"
+                   Text="Points"/>
+        <TextBlock Grid.Row="1"
+                   Grid.Column="1"
+                   Style="{StaticResource ProfileDataStyle}"
+                   Text="{Binding Game.Player.Points}"/>
+        <TextBlock Grid.Row="2"
+                   Grid.Column="0"
+                   Style="{StaticResource ProfileHeaderStyle}"
+                   Text="Combinations"/>
+        <TextBlock Grid.Row="2"
+                   Grid.Column="1"
+                   Style="{StaticResource ProfileDataStyle}"
+                   Text="{Binding Game.Player.CombosCount}"/>
+        <TextBlock Grid.Row="3"
+                   Grid.Column="0"
+                   Style="{StaticResource ProfileHeaderStyle}"
+                   Text="Element level"/>
+        <TextBlock Grid.Row="3"
+                   Grid.Column="1"
+                   Style="{StaticResource ProfileDataStyle}"
+                   Text="{Binding Game.Player.HighestLevelElement}"/>
+        <TextBlock Grid.Row="4"
+                   Grid.Column="0"
+                   Style="{StaticResource ProfileHeaderStyle}"
+                   Text="Place "/>
+        <TextBlock Grid.Row="4"
+                   Grid.Column="1"
+                   Style="{StaticResource ProfileDataStyle}"
+                   Text="{Binding Game.Player.Place}"/>
+        <ProgressRing Grid.Row="4"
+                      Name="LoadingPlaceBar"
+                      Grid.Column="1"
+                      Width="80"
+                      Height="80"/>
     </Grid>
 </UserControl>

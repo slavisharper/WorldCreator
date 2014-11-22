@@ -53,6 +53,8 @@
             }
         }
 
+        public int Place { get; set; }
+
         public int CombosCount { get; set; }
 
         public int HighestLevelElement { get; set; }
