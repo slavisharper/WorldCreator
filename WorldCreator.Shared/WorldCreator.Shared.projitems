@@ -16,12 +16,13 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)AttachedProperties\CanvasExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\RelayCommandWithParameter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\ModelParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\NavigationHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\ObservableDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommandWithParameter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SuspensionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\PointsConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ApplicationDataContexxt.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\SQLite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\SQLiteAsync.cs" />
@@ -34,7 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Parse\HighScore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PlayerAchievments.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\PlayerItems.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PlayerItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AchievmentViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GameViewModel.cs" />
@@ -45,21 +46,33 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\CanvasListView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\GroupsScrollView.xaml.cs">
+      <DependentUpon>GroupsScrollView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\HighScores.xaml.cs">
       <DependentUpon>HighScores.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Item.xaml.cs">
       <DependentUpon>Item.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ItemsScrollView.xaml.cs">
+      <DependentUpon>ItemsScrollView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Profile.xaml.cs">
       <DependentUpon>Profile.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Images\" />
-  </ItemGroup>
-  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\MainStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\GroupsScrollView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -71,9 +84,40 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\ItemsScrollView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\Profile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Images\air.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\dust.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\earth.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\earthquake.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\electricity.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\energy.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\fire.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\gayser.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\island.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\life.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\mud.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\plane.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\plasma.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\rain.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\rock.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\steam.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\stone.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\storm.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\swamp.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\the_hand.jpg" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\thunder.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\tornado.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\volcano.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\water-512.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\water.png" />
   </ItemGroup>
 </Project>

@@ -7,8 +7,11 @@ using System.Text;
 namespace WorldCreator.Data
 {
     [Table("PlayerItems")]
-    public class PlayerItems
+    public class PlayerItem
     {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+
         [Indexed]
         public int PlayerId { get; set; }
 
@@ -16,5 +19,6 @@ namespace WorldCreator.Data
         public int ItemId { get; set; }
 
         public bool IsOnBoard { get; set; }
+        
     }
 }

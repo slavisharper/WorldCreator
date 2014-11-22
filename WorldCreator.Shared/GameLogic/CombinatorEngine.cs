@@ -28,6 +28,11 @@
 
         public ItemViewModel PerformCombination(Combination combination)
         {
+            if (!this.combosByName.ContainsKey(combination.FirstElementName))
+            {
+                return null;
+            }
+
             var possibleCombos = this.combosByName[combination.FirstElementName];
             ItemViewModel item = null;
 

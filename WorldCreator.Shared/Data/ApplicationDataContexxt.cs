@@ -34,7 +34,7 @@
 
         private static void CreateTables(ApplicationDataContext instance)
         {
-            var result = instance.connection.CreateTablesAsync<Achievment, Item, Player, PlayerItems, PlayerAchievments>().Result;
+            var result = instance.connection.CreateTablesAsync<Achievment, Item, Player, PlayerAchievments>().Result;
         }
 
         public async Task<IEnumerable<string>> PlayerNames()
@@ -75,26 +75,21 @@
             player.HighestLevelCleared = 0;
             player.HighestLevelElement = 0;
             await connection.InsertAsync(player);
-            this.currentPlayer = await connection.Table<Player>().Where(p => p.Name == playerName).FirstOrDefaultAsync();
+            this.currentPlayer = await connection.Table<Player>()
+                .Where(p => p.Name == playerName).FirstOrDefaultAsync();
             return player;
         }
 
         public async Task AddItemAsync(Item item)
         {
-            var query = this.connection.Table<Item>().Where(i => i.Name == item.Name);
-            var dbItems = await query.ToListAsync();
-            Item dbItem;
-            if (dbItems.Count < 1)
+            var query = this.connection.Table<Item>()
+                .Where(i => i.Name == item.Name && i.PlayerId == currentPlayer.ID);
+            var dbItem = await query.FirstOrDefaultAsync();
+            if (dbItem == null)
 	        {
+                item.PlayerId = currentPlayer.ID;
                 await this.connection.InsertAsync(item);
-                dbItem = await query.FirstAsync();
 	        }
-            else
-            {
-                dbItem = dbItems[0];
-            }
-            
-            this.InsertPlayerItem(dbItem.ID, currentPlayer.ID, true);
         }
 
         public async Task AddMultipleItemsAsync(IEnumerable<Item> items)
@@ -123,40 +118,40 @@
             this.InsertPlayerAchievment(dbAchievment.ID, currentPlayer.ID);
         }
 
-        public async void AddItemToBoard(Item item)
+        public async Task AddItemToBoard(Item item)
         {
-            var query = this.connection.Table<Item>().Where(i => i.Name == item.Name);
-            Item dbItem = await query.FirstAsync();
-            var itemQuery = this.connection.Table<PlayerItems>()
-                .Where(pi => pi.ItemId == dbItem.ID && currentPlayer.ID == pi.PlayerId);
-            PlayerItems playerItem = await itemQuery.FirstAsync();
-            if (playerItem == null)
+            var query = this.connection.Table<Item>()
+                .Where(i => i.Name == item.Name && i.PlayerId == currentPlayer.ID);
+            Item dbItem = await query.FirstOrDefaultAsync();
+            if (dbItem == null)
             {
-                playerItem = new PlayerItems();
-                playerItem.IsOnBoard = true;
-                playerItem.ItemId = dbItem.ID;
-                playerItem.PlayerId = currentPlayer.ID;
-                await this.connection.InsertAsync(playerItem);
-            }
-            else
-            {
-                playerItem.IsOnBoard = true;
-                await this.connection.UpdateAsync(playerItem);
+                await this.AddItemAsync(item);
+                dbItem = await query.FirstOrDefaultAsync();
             }
 
+            dbItem.IsOnBoard = true;
+            dbItem.X = item.X;
+            dbItem.Y = item.Y;
+            await this.connection.UpdateAsync(dbItem);
+        }
+
+        public async Task AddMultipleItemsToBoard(IEnumerable<Item> items)
+        {
+            foreach (var item in items)
+            {
+                await this.AddItemToBoard(item);
+            }
         }
 
         public async void RemoveItemFromBoard(Item item)
         {
-            var query = this.connection.Table<Item>().Where(i => i.Name == item.Name);
+            var query = this.connection.Table<Item>()
+                .Where(i => i.Name == item.Name && i.PlayerId == currentPlayer.ID);
             Item dbItem = await query.FirstAsync();
-            var itemQuery = this.connection.Table<PlayerItems>()
-                .Where(pi => pi.ItemId == dbItem.ID && currentPlayer.ID == pi.PlayerId);
-            PlayerItems playerItem = await itemQuery.FirstAsync();
-            if (playerItem != null)
+            if (dbItem != null)
             {
-                playerItem.IsOnBoard = false;
-                await this.connection.UpdateAsync(playerItem);
+                dbItem.IsOnBoard = false;
+                await this.connection.UpdateAsync(dbItem);
             }
         }
 
@@ -170,24 +165,19 @@
             return achievments;
         }
 
-        public IEnumerable<Item> GetPlayerItems()
+        public async Task<IEnumerable<Item>> GetPlayerItems()
         {
-            var query = this.connection.QueryAsync<Item>("select I.* from PlayerItems PI " +
-                                                                   "join Items I " +
-                                                                   "on PI.ItemId = I.ID " +
-                                                                   "where PI.PlayerId = " + currentPlayer.ID);
-            var items = query.Result;
+            var items = await this.connection.Table<Item>()
+                .Where(i => i.PlayerId == currentPlayer.ID)
+                .ToListAsync();
             return items;
         }
 
-        public IEnumerable<Item> GetPlayerItemsOnBoard()
+        public async Task<List<Item>> GetPlayerItemsOnBoard()
         {
-            var query = this.connection.QueryAsync<Item>("select I.* from PlayerItems PI " +
-                                                                   "join Items I " +
-                                                                   "on ItemId = I.ID " +
-                                                                   "where PI.PlayerId = " + currentPlayer.ID +
-                                                                   " and PI.IsOnBoard = 1");
-            var items = query.Result;
+            var items = await this.connection.Table<Item>()
+                .Where(i => i.PlayerId == currentPlayer.ID && i.IsOnBoard == true)
+                .ToListAsync();
             return items;
         }
 
@@ -208,18 +198,9 @@
             this.connection.InsertAsync(achievment);
         }
 
-        private void InsertPlayerItem(int itemId, int playerId, bool isOnBoard)
-        {
-            PlayerItems playerItems = new PlayerItems();
-            playerItems.IsOnBoard = isOnBoard;
-            playerItems.ItemId = itemId;
-            playerItems.PlayerId = playerId;
-            this.connection.InsertAsync(playerItems);
-        }
-
         private async void CreateTables()
         {
-            await this.connection.CreateTablesAsync<Achievment, Item, Player, PlayerItems, PlayerAchievments>();
+            await this.connection.CreateTablesAsync<Achievment, Item, Player, PlayerAchievments>();
         }
     }
 }

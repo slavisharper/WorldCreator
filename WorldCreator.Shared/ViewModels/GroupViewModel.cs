@@ -1,12 +1,13 @@
 ﻿namespace WorldCreator.ViewModels
 {
     using System.Collections.Generic;
+    using Windows.UI.Xaml.Media.Imaging;
     using WorldCreator.Extensions;
 
     public class GroupViewModel : BaseViewModel
     {
         private IList<ItemViewModel> items;
-        private const string IconPathFormatString = "Images/{0}.png";
+        private const string IconPathFormatString = "../Images/{0}.png";
         private string iconPath;
 
         public GroupViewModel()
@@ -55,6 +56,7 @@
 
                 this.items.Clear();
                 this.items.AddRange(value);
+                this.OnPropertyChanged("Items");
             }
         }
     }

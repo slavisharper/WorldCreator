@@ -4,96 +4,151 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WorldCreator"
     xmlns:views="using:WorldCreator.Views"
+    xmlns:converters="using:WorldCreator.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:WorldCreator.ViewModels"
     mc:Ignorable="d">
 
     <Page.Resources>
-        <Style TargetType="Button" x:Name="ButtonMenuStyle">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="20" />
-            <Setter Property="FontSize" Value="24" />
-            <Setter Property="Width" Value="150" />
-        </Style>
+        <converters:PointsConverter x:Key="PointsToStringConvert" />
     </Page.Resources>
-    
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="8*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" 
-                     VerticalAlignment="Stretch"
-                    Background="#FF860FD8">
+        <Grid VerticalAlignment="Stretch"
+                  Background="#090974">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Center"
+                       Grid.Row="0"
                        Margin="10, 40, 10, 10"
                        FontSize="30" 
                        FontWeight="Bold"
                        FontFamily="Arial Black"
-                       Foreground="#FFFBFBFB">
-                World Creator
-            </TextBlock>
-            <Grid VerticalAlignment="Stretch">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Button Grid.Row="0" 
+                       Foreground="#FFFBFBFB"
+                           Text="World Creator"/>
+            <Button Grid.Row="1" 
                         IsEnabled="{Binding IsPlayerLogged}"
                         Style="{StaticResource ButtonMenuStyle}"
                         Click="PlayButton_Click"
                         Content="Play"/>
-                <Button Grid.Row="1"
+            <Button Grid.Row="2"
                         Style="{StaticResource ButtonMenuStyle}"
                         Click="ProfileButton_Click"
                         IsEnabled="{Binding IsPlayerLogged}"
                         Content="Profile"/>
-                <Button Grid.Row="2"
+            <Button Grid.Row="3"
                         Style="{StaticResource ButtonMenuStyle}"
                         Click="HighScoresButton_Click"
                         IsEnabled="{Binding IsPlayerLogged}"
                         Content="High Scores"/>
-                <Button Grid.Row="3"
+            <Button Grid.Row="4"
                         Style="{StaticResource ButtonMenuStyle}"
                         IsEnabled="{Binding IsPlayerLogged}"
                         Click="AboutButton_Click"
                         Content="About"/>
+            <Grid Grid.Row="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding Game.Player.Name}"
+                       FontSize="36"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Grid.Row="0"/>
+                <TextBlock Text="{Binding Game.Player.Points, Converter={StaticResource PointsToStringConvert}}"
+                       FontSize="30"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Grid.Row="1"/>
+                <Button Content="Change" 
+                        VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                        Click="ChangeButton_Click"
+                        Grid.Row="2"/>
             </Grid>
-        </StackPanel>
+        </Grid>
         <Grid Grid.Column="1" 
               Name="PageContainerGrid">
             <Grid Canvas.ZIndex="1" 
-                  Background="LightCoral"
+                  Background="#7373D9"
                   Name="StartPage">
                 <views:StartupView></views:StartupView>
             </Grid>
             <Grid Canvas.ZIndex="0" 
-                  Background="Aqua"
                   Name="GamePage">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"/>
-                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="8*"/>
                 </Grid.RowDefinitions>
+                <Grid.Background>
+                    <ImageBrush ImageSource="Images/the_hand.jpg"/>
+                </Grid.Background>
+                <views:GroupsScrollView Grid.Row="0"/>
                 <ScrollViewer Grid.Row="1"
-                              Width="160"
+                              Width="150"
+                              Background="LightBlue"
+                              Opacity="0.7"
                               HorizontalAlignment="Left">
-                    <StackPanel Name="SelectedItemsPanel"
-                            Width="150"
-                                Background="DeepPink"
-                             HorizontalAlignment="Center"
-                            />
+                    <ListView SelectionMode="None"
+                              HorizontalAlignment="Center"
+                        ItemsSource="{Binding Game.SelectedGroup.Items}" >
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <views:Item Width="100"
+                                    Margin="10, 5"
+                                    ManipulationMode="All"
+                                    ManipulationCompleted="AddItem_ManipulationCompleted"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </ScrollViewer>
-                <Canvas Grid.Row="1"
+                <views:CanvasListView Grid.Row="1"
                         Name="GameCanvas"
+                        SelectionMode="None"
+                        ItemsSource="{Binding Game.ItemsOnBoard}"
                         Background="AntiqueWhite"
-                        Margin="160, 0, 0, 0"/>
-                
+                        Opacity="0.7"
+                        Margin="150, 0, 0, 0">
+                    <views:CanvasListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas/>
+                        </ItemsPanelTemplate>
+                    </views:CanvasListView.ItemsPanel>
+                    <views:CanvasListView.ItemTemplate>
+                        <DataTemplate>
+                            <views:Item
+                                Width="80"
+                                Canvas.Left="{Binding X}"
+                                Canvas.Top="{Binding Y}"
+                                ManipulationMode="All"
+                                DoubleTapped="Item_DoubleTapped"
+                                ManipulationCompleted="MoveItem_ManipulationCompleted"
+                                ManipulationDelta="MoveItem_ManipulationDelta" />
+                        </DataTemplate>
+                    </views:CanvasListView.ItemTemplate>
+                </views:CanvasListView>
             </Grid>
             <Grid Canvas.ZIndex="0" 
                   Background="Bisque"
+                  Opacity="0.5"
                   Name="ProfilePage">
                 <TextBlock FontSize="36">PROFILE PAGE</TextBlock>
                 <views:Profile></views:Profile>

@@ -3,7 +3,7 @@
     public class Combination
     {
         public Combination(string first, string second)
-            :this(first, second, null, -1)
+            :this(first, second, string.Empty, -1)
         {
         }
 

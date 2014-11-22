@@ -1,0 +1,53 @@
+﻿<Page
+    x:Class="WorldCreator.MainMenuPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WorldCreator"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="using:WorldCreator.Views"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid x:Name="LayoutRoot">
+        <Grid VerticalAlignment="Stretch"
+                  Background="#FF860FD8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+            <TextBlock HorizontalAlignment="Center"
+                        Grid.Row="0"
+                       Margin="10, 40, 10, 10"
+                       FontSize="30" 
+                       FontWeight="Bold"
+                       FontFamily="Arial Black"
+                       Foreground="#FFFBFBFB"
+                           Text="World Creator"/>
+            <Button Grid.Row="1" 
+                        Style="{StaticResource ButtonMenuStyle}"
+                        Click="PlayButton_Click"
+                        Content="Play"/>
+            <Button Grid.Row="2"
+                        Style="{StaticResource ButtonMenuStyle}"
+                        Click="ProfileButton_Click"
+                        IsEnabled="{Binding IsPlayerLogged}"
+                        Content="Profile"/>
+            <Button Grid.Row="3"
+                        Style="{StaticResource ButtonMenuStyle}"
+                        Click="HighScoresButton_Click"
+                        Content="High Scores"/>
+            <Button Grid.Row="4"
+                        Style="{StaticResource ButtonMenuStyle}"
+                        Click="AboutButton_Click"
+                        Content="About"/>
+            <TextBlock Text="Player"
+                       VerticalAlignment="Stretch"
+                       Grid.Row="5"/>
+        </Grid>
+    </Grid>
+</Page>

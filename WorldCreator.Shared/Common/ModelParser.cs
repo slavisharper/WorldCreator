@@ -22,15 +22,18 @@ namespace WorldCreator.Common
             return parsedPlayer;
         }
 
-        public static GameViewModel ParseGameData(Player player)
+        public async static Task<GameViewModel> ParseGameData(Player player)
         {
+            var playerVM = ParseToPlayerViewModel(player);
             ApplicationDataContext data = ApplicationDataContext.Instance;
             GameViewModel gameVM = new GameViewModel();
 
-            IEnumerable<Item> rawITems = data.GetPlayerItems();
+            IEnumerable<Item> rawITems = await data.GetPlayerItems();
             IEnumerable<ItemViewModel> playerItems = ParseItems(rawITems);
-            IEnumerable<ItemViewModel> itemsOnBoard = ParseItems(data.GetPlayerItemsOnBoard());
+            IEnumerable<Item> dbItemsOnBoard = await data.GetPlayerItemsOnBoard();
+            IEnumerable<ItemViewModel> itemsOnBoard = ParseItems(dbItemsOnBoard);
 
+            gameVM.Player = playerVM;
             gameVM.ItemsOnBoard = itemsOnBoard;
             gameVM.PlayerGroups = ParseGroups(playerItems);
             return gameVM;
@@ -54,8 +57,8 @@ namespace WorldCreator.Common
             parsedItem.IconPath = item.IconPath;
             parsedItem.Level = item.Level;
             parsedItem.Name = item.Name;
-            parsedItem.X = item.X;
-            parsedItem.Y = item.Y;
+            parsedItem.X = item.Left;
+            parsedItem.Y = item.Top;
             return parsedItem;
         }
 
@@ -64,12 +67,12 @@ namespace WorldCreator.Common
             var groups = new Dictionary<string, ObservableCollection<ItemViewModel>>();
             foreach (var item in items)
             {
-                if (!groups.ContainsKey(item.Name))
+                if (!groups.ContainsKey(item.GroupName))
                 {
-                    groups[item.Name] = new ObservableCollection<ItemViewModel>();
+                    groups[item.GroupName] = new ObservableCollection<ItemViewModel>();
                 }
 
-                var group = groups[item.Name];
+                var group = groups[item.GroupName];
                 group.Add(item);
             }
 
@@ -102,12 +105,24 @@ namespace WorldCreator.Common
             foreach (var item in items)
             {
                 ItemViewModel parsedItem = new ItemViewModel(item.Name, item.IconPath, item.Level);
-                parsedItem.X = item.X;
-                parsedItem.Y = item.Y;
+                parsedItem.Left = item.X;
+                parsedItem.Top = item.Y;
+                parsedItem.GroupName = item.GroupName;
                 parsedItems.Add(parsedItem);
             }
 
             return parsedItems;
-        } 
+        }
+
+        internal static Player ParseToPlayer(PlayerViewModel p)
+        {
+            var player = new Player();
+            player.CombosCount = p.CombosCount;
+            player.HighestLevelCleared = p.HighestLevelCleared;
+            player.HighestLevelElement = p.HighestLevelElement;
+            player.Name = p.Name;
+            player.Points = p.Points;
+            return player;
+        }
     }
 }

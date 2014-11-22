@@ -74,7 +74,7 @@ namespace WorldCreator
                 {
                     timer.Stop();
                     model.IsLoading = false;
-                    this.Frame.Navigate(typeof(GamePage));
+                    this.Frame.Navigate(typeof(MainMenuPage));
                 }
             };
             timer.Interval = new TimeSpan(100);
@@ -83,7 +83,7 @@ namespace WorldCreator
 
         private void NewPlayerButton_Click(object sender, RoutedEventArgs e)
         {
-             string name = this.PlayersComboBox.SelectedItem as string;
+            string name = this.InputPlayerName.Text;
              if (name == null || name.Length < 3 || name.Length > 20)
              {
 

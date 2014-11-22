@@ -6,10 +6,24 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignHeight="100"
+    d:DesignWidth="100">
     
-    <Grid>
-
+    <Grid> 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Image 
+               Grid.Row="0"
+               Source="{Binding IconPath}"/>
+        <TextBlock Text="{Binding Name}"
+                   Grid.Row="1"
+                   Name="ItemName"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Bottom"
+                   IsColorFontEnabled="True"
+                   Foreground="Black"
+                   FontSize="22"/>
     </Grid>
 </UserControl>

@@ -2,6 +2,10 @@
 {
     public class ItemViewModel : BaseViewModel
     {
+        private string iconPath;
+        private double top;
+        private double left;
+
         public ItemViewModel() 
             :this("", "", 0, "")
         { }
@@ -18,13 +22,43 @@
             this.GroupName = groupName;
         }
 
-        public double X { get; set; }
+        public double Top
+        {
+            get
+            {
+                return this.top;
+            }
+            set
+            {
+                this.top = value;
+                this.OnPropertyChanged("Top");
+            }
+        }
 
-        public double Y { get; set; }
+        public double Left
+        {
+            get
+            {
+                return this.left;
+            }
+            set
+            {
+                this.left = value;
+                this.OnPropertyChanged("Left");
+            }
+        }
 
         public string Name { get; set; }
 
-        public string IconPath { get; set; }
+        public string IconPath
+        {
+            get { return this.iconPath; }
+            set
+            {
+                this.iconPath = value;
+                this.OnPropertyChanged("IconPath");
+            }
+        }
 
         public int Level { get; set; }
 

@@ -17,6 +17,7 @@
         private const string PlayerNameKey = "name";
         private ApplicationDataContext dataContext;
         private PlayerViewModel currentPlayer;
+        private GameViewModel game;
         private ApplicationDataContainer localSettings;
         private ObservableCollection<string> playerNames;
         private ICommand commandLogUser;
@@ -31,16 +32,6 @@
             this.IsLoading = false;
             this.IsPlayerLogged = false;
             ProfileInitialize();
-        }
-
-        public PlayerViewModel Player
-        {
-            get { return this.currentPlayer; }
-            set
-            {
-                this.currentPlayer = value;
-                this.OnPropertyChanged("Player");
-            }
         }
 
         public bool IsPlayerLogged 
@@ -86,7 +77,18 @@
             }
         }
 
-        public GameViewModel Game { get; set; }
+        public GameViewModel Game 
+        {
+            get 
+            { 
+                return this.game; 
+            }
+            set
+            {
+                this.game = value;
+                this.OnPropertyChanged("Game");
+            }
+        }
 
         public ICommand CreateNewPlayer 
         {
@@ -157,7 +159,7 @@
         private async Task LoadPlayer(string playerName)
         {
             Player player = await this.dataContext.LoadPlayer(playerName);
-            this.LoadPlayerData(player);
+            await this.LoadPlayerData(player);
         }
 
         private async Task ChangePlayer(string playerName)
@@ -169,15 +171,15 @@
                 IEnumerable<ItemViewModel> initialModels = CombinationsGetter.BasicItems;
                 IEnumerable<Item> dbItems = ModelParser.ParseToItems(initialModels);
                 await this.dataContext.AddMultipleItemsAsync(dbItems);
+                await this.dataContext.AddMultipleItemsToBoard(dbItems);
             }
 
-            this.LoadPlayerData(player);
+            await this.LoadPlayerData(player);
         }
 
-        private void LoadPlayerData(Player player)
+        private async Task LoadPlayerData(Player player)
         {
-            this.Player = ModelParser.ParseToPlayerViewModel(player);
-            this.Game = ModelParser.ParseGameData(player);
+            this.Game = await ModelParser.ParseGameData(player);
             this.IsPlayerLogged = true;
             this.localSettings.Values[PlayerNameKey] = player.Name;
         }

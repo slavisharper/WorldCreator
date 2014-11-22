@@ -15,11 +15,11 @@ using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace WorldCreator
+namespace WorldCreator.Views
 {
-    public sealed partial class MainMenuView : UserControl
+    public sealed partial class GroupsScrollView : UserControl
     {
-        public MainMenuView()
+        public GroupsScrollView()
         {
             this.InitializeComponent();
         }

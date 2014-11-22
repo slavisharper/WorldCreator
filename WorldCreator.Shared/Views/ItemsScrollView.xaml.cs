@@ -17,23 +17,20 @@ using Windows.UI.Xaml.Navigation;
 
 namespace WorldCreator.Views
 {
-    public sealed partial class Item : UserControl
+    public sealed partial class ItemsScrollView : UserControl
     {
-        public Item()
+        public event EventHandler ManipulationCompleted;
+        public ItemsScrollView()
         {
             this.InitializeComponent();
         }
 
-        public string Name 
+        internal void AddItem_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs args)
         {
-            get
-            {
-                return this.ItemName.Text;
-            }
-            set
-            {
-                this.ItemName.Text = value;
-            }
+        //    if (this.ManipulationCompleted != null)
+        //    {
+        //        this.ManipulationCompleted(this, args);
+        //    }
         }
     }
 }
