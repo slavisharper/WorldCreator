@@ -9,8 +9,7 @@
     d:DesignHeight="640"
     d:DesignWidth="480">
     
-    <Grid Background="#034D5F"
-          Width="480">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -22,7 +21,7 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="{Binding Game.Player.Name}" 
+        <TextBlock Text="{Binding Name}" 
                    Grid.Row="0"
                    Style="{StaticResource ProfileHeaderStyle}"
                    Grid.Column="0"
@@ -35,7 +34,7 @@
         <TextBlock Grid.Row="1"
                    Grid.Column="1"
                    Style="{StaticResource ProfileDataStyle}"
-                   Text="{Binding Game.Player.Points}"/>
+                   Text="{Binding Points}"/>
         <TextBlock Grid.Row="2"
                    Grid.Column="0"
                    Style="{StaticResource ProfileHeaderStyle}"
@@ -43,7 +42,7 @@
         <TextBlock Grid.Row="2"
                    Grid.Column="1"
                    Style="{StaticResource ProfileDataStyle}"
-                   Text="{Binding Game.Player.CombosCount}"/>
+                   Text="{Binding CombosCount}"/>
         <TextBlock Grid.Row="3"
                    Grid.Column="0"
                    Style="{StaticResource ProfileHeaderStyle}"
@@ -51,7 +50,7 @@
         <TextBlock Grid.Row="3"
                    Grid.Column="1"
                    Style="{StaticResource ProfileDataStyle}"
-                   Text="{Binding Game.Player.HighestLevelElement}"/>
+                   Text="{Binding HighestLevelElement}"/>
         <TextBlock Grid.Row="4"
                    Grid.Column="0"
                    Style="{StaticResource ProfileHeaderStyle}"
@@ -59,7 +58,7 @@
         <TextBlock Grid.Row="4"
                    Grid.Column="1"
                    Style="{StaticResource ProfileDataStyle}"
-                   Text="{Binding Game.Player.Place}"/>
+                   Text="{Binding Place}"/>
         <ProgressRing Grid.Row="4"
                       Name="LoadingPlaceBar"
                       Grid.Column="1"

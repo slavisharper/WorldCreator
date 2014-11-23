@@ -44,8 +44,9 @@
                         <DataTemplate>
                             <views:Item Width="60"
                                     Margin="0, 5, 0, 5"
-                                    ManipulationMode="All"
-                                    ManipulationCompleted="AddItem_ManipulationCompleted"/>
+                                    ManipulationMode="TranslateY, TranslateX"
+                                    ManipulationStarted="AddItem_ManipulationStarted"
+                                   ManipulationCompleted="AddItem_ManipulationCompleted"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
@@ -70,6 +71,7 @@
                                 Canvas.Top="{Binding Y}"
                                 ManipulationMode="All"
                                 DoubleTapped="Item_DoubleTapped"
+                            ManipulationStarted="MoveItem_ManipulationStarted"
                                 ManipulationCompleted="MoveItem_ManipulationCompleted"
                                 ManipulationDelta="MoveItem_ManipulationDelta" />
                     </DataTemplate>

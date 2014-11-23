@@ -7,14 +7,14 @@
     {
         private Dictionary<string, List<Combination>> combosByName;
         private Dictionary<string, ItemViewModel> items;
-        private CombinationsGetter combosGetter;
+        private IItemssGetter combosGetter;
 
         public CombinatorEngine()
             :this(new CombinationsGetter())
         {
         }
 
-        public CombinatorEngine(CombinationsGetter comboGetter)
+        public CombinatorEngine(IItemssGetter comboGetter)
         {
             this.combosGetter = comboGetter;
             this.combosByName = combosGetter.GetAllCombinations();

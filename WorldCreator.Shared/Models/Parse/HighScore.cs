@@ -5,19 +5,43 @@ namespace WorldCreator.Models.Parse
     [ParseClassName("HighScore")]
     public class HighScore : ParseObject
     {
-        [ParseFieldName("PlayerName")]
-        public string PlayerName { get; set; }
+        public HighScore()
+        {
+        }
 
-        [ParseFieldName("Points")]
-        public int Points { get; set; }
+        [ParseFieldName("playerName")]
+        public string PlayerName 
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty<string>(value); } 
+        }
 
-        [ParseFieldName("CombosCount")]
-        public int CombosCount { get; set; }
+        [ParseFieldName("points")]
+        public int Points 
+        {
+            get { return GetProperty<int>(); }
+            set { SetProperty<int>(value); }
+        }
 
-        [ParseFieldName("HighestLevelElement")]
-        public int HighestLevelElement { get; set; }
+        [ParseFieldName("combosCount")]
+        public int CombosCount
+        {
+            get { return GetProperty<int>(); }
+            set { SetProperty<int>(value); } 
+        }
 
-        [ParseFieldName("HighestLevelCleared")]
-        public int HighestLevelCleared { get; set; }
+        [ParseFieldName("highestLevelElement")]
+        public int HighestLevelElement
+        {
+            get { return GetProperty<int>(); }
+            set { SetProperty<int>(value); }
+        }
+
+        [ParseFieldName("highestLevelCleared")]
+        public int HighestLevelCleared
+        {
+            get { return GetProperty<int>(); }
+            set { SetProperty<int>(value); }
+        }
     }
 }

@@ -100,6 +100,17 @@
             }
         }
 
+        public async void UpdateItemPositionAsync(Item item)
+        {
+            var dbItem = await this.connection.Table<Item>()
+                .Where(i => i.IsOnBoard == true && 
+                    i.PlayerId == currentPlayer.ID &&
+                    i.Name == item.Name).FirstOrDefaultAsync();
+            dbItem.X = item.X;
+            dbItem.Y = item.Y;
+            await this.connection.UpdateAsync(dbItem);
+        }
+
         public async void AddAchievment(Achievment achievment)
         {
             var query = this.connection.Table<Achievment>().Where(a => a.Title == achievment.Title);

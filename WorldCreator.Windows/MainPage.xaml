@@ -111,6 +111,7 @@
                                 <views:Item Width="80"
                                     Margin="0, 5, 0, 5"
                                     ManipulationMode="All"
+                                    ManipulationStarted="AddItem_ManipulationStarted"
                                     ManipulationCompleted="AddItem_ManipulationCompleted"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -136,6 +137,7 @@
                                 Canvas.Top="{Binding Y}"
                                 ManipulationMode="All"
                                 DoubleTapped="Item_DoubleTapped"
+                                ManipulationStarted="MoveItem_ManipulationStarted"
                                 ManipulationCompleted="MoveItem_ManipulationCompleted"
                                 ManipulationDelta="MoveItem_ManipulationDelta" />
                         </DataTemplate>
@@ -144,17 +146,14 @@
             </Grid>
             <Grid Name="ProfilePage"
                   Canvas.ZIndex="0" 
-                  Background="#7373D9"
-                  Opacity="0.7"
-                  >
+                   Style="{StaticResource LighBlueBackgroundTheme}">
                 <TextBlock FontSize="36">PROFILE PAGE</TextBlock>
-                <views:Profile></views:Profile>
+                <views:Profile DataContext="{Binding Game.Player}"/>
             </Grid>
             <Grid Name="HighScoresPage"
                   Canvas.ZIndex="0" 
                   Background="Black">
-                <TextBlock FontSize="36">HIGHSCORES PAGE</TextBlock>
-                <views:HighScores></views:HighScores>
+                <views:HighScores DataContext="{Binding Game.Player}" />
             </Grid>
             <Grid Name="AboutPage" 
                   Canvas.ZIndex="0" 

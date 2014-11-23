@@ -44,7 +44,7 @@ namespace WorldCreator
 
         private void HighScoresButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(HighScoresPage));
+            this.Frame.Navigate(typeof(HighScoresPage), model.Game);
         }
 
         private void AboutButton_Click(object sender, RoutedEventArgs e)
@@ -54,7 +54,7 @@ namespace WorldCreator
 
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(ProfilePage));
+            this.Frame.Navigate(typeof(ProfilePage), model.Game);
         }
 
 

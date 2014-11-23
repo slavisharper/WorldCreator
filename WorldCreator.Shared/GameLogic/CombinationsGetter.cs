@@ -4,59 +4,14 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using WorldCreator.ViewModels;
+    using System.Linq;
 
-    public class CombinationsGetter
+    public class CombinationsGetter : IItemssGetter
     {
-        public Dictionary<string, List<Combination>> GetAllCombinations()
-        {
-            var combos = new Dictionary<string, List<Combination>>();
-            combos.Add("fire", new List<Combination>());
-            combos.Add("water", new List<Combination>());
-            combos.Add("air", new List<Combination>());
-            combos.Add("earth", new List<Combination>());
-            combos.Add("lava", new List<Combination>());
-            combos.Add("dust", new List<Combination>());
-            combos.Add("energy", new List<Combination>());
-            combos.Add("rain", new List<Combination>());
-            combos.Add("steam", new List<Combination>());
-            combos.Add("swamp", new List<Combination>());
-
-            combos["fire"].Add(new Combination("Fire", "Water", "Steam", 1));
-            combos["fire"].Add(new Combination("Fire", "Earth", "Lava", 1));
-            combos["fire"].Add(new Combination("Fire", "Air", "Energy", 1));
-            combos["fire"].Add(new Combination("Fire", "Energy", "Plasma", 2));
-            combos["water"].Add(new Combination("Water", "Fire", "Steam", 1));
-            combos["water"].Add(new Combination("Water", "Earth", "Swamp", 1));
-            combos["water"].Add(new Combination("Water", "Air", "Rain", 1));
-            combos["water"].Add(new Combination("Water", "Lava", "Stone", 2));
-            combos["water"].Add(new Combination("Water", "Dust", "Mud", 2));
-            combos["water"].Add(new Combination("Water", "Energy", "Wave", 2));
-            combos["earth"].Add(new Combination("Earth", "Water", "Swamp", 1));
-            combos["earth"].Add(new Combination("Earth", "Steam", "Gayser", 2));
-            combos["earth"].Add(new Combination("Earth", "Energy", "Earthquake", 2));
-            combos["earth"].Add(new Combination("Earth", "Fire", "Lava", 1));
-            combos["earth"].Add(new Combination("Earth", "Air", "Dust", 1));
-            combos["air"].Add(new Combination("Air", "Water", "Rain", 1));
-            combos["air"].Add(new Combination("Air", "Earth", "Dust", 1));
-            combos["air"].Add(new Combination("Air", "Fire", "Energy", 1));
-            combos["lava"].Add(new Combination("Lava", "Water", "Stone", 2));
-            combos["dust"].Add(new Combination("Dust", "Water", "Mud", 2));
-            combos["energy"].Add(new Combination("Energy", "Fire", "Plasma", 2));
-            combos["energy"].Add(new Combination("Energy", "Sea", "Wave", 2));
-            combos["energy"].Add(new Combination("Energy", "Rain", "Storm", 2));
-            combos["energy"].Add(new Combination("Energy", "Earth", "Earthquake", 2));
-            combos["energy"].Add(new Combination("Energy", "Water", "Wave", 2));
-            combos["energy"].Add(new Combination("Energy", "Swamp", "Life", 2));
-            combos["rain"].Add(new Combination("Rain", "Energy", "Storm", 2));
-            combos["steam"].Add(new Combination("Steam", "Earth", "Gayser", 2));
-            combos["swamp"].Add(new Combination("Swamp", "Energy", "Life", 2));
-            return combos;
-        }
-
         public static IEnumerable<ItemViewModel> BasicItems
         {
             get
-            { 
+            {
                 var items = new ItemViewModel[4]
                 { 
                     new ItemViewModel("Water", "../Images/water.png", 0, "Water"),
@@ -80,30 +35,114 @@
             }
         }
 
+        public Dictionary<string, List<Combination>> GetAllCombinations()
+        {
+            return this.CombosToDictionary(GetCombinations());
+        }
+
         public Dictionary<string, ItemViewModel> GetAllItems()
         {
-            var items = new Dictionary<string, ItemViewModel>();
+            return this.ItemsToDictionary(GetItems());
+        }
 
-            items.Add("fire", new ItemViewModel("Fire", "../Images/fire.png", 1, "Fire"));
-            items.Add("water", new ItemViewModel("Water", "../Images/water.png", 1, "Water"));
-            items.Add("air", new ItemViewModel("Air", "../Images/air.png", 1, "Air"));
-            items.Add("earth", new ItemViewModel("Earth", "../Images/earth.png", 1, "Earth"));
-            items.Add("steam", new ItemViewModel("Steam", "../Images/steam.png", 1, "Water"));
-            items.Add("lava", new ItemViewModel("Lava", "../Images/lava.png", 1, "Fire"));
-            items.Add("rain", new ItemViewModel("Rain", "../Images/rain.png", 1, "Air"));
-            items.Add("dust", new ItemViewModel("Dust", "../Images/dust.png", 1, "Earth"));
-            items.Add("swamp", new ItemViewModel("Swamp", "../Images/swamp.png", 1, "Water"));
-            items.Add("energy", new ItemViewModel("Energy", "../Images/energy.png", 1, "Energy"));
-            items.Add("stone", new ItemViewModel("Stone", "../Images/stone.png", 2, "Earth"));
-            items.Add("wave", new ItemViewModel("Wave", "../Images/wave.png", 2, "Water"));
-            items.Add("plasma", new ItemViewModel("Plasma", "../Images/plasma.png", 2, "Fire"));
-            items.Add("storm", new ItemViewModel("Storm", "../Images/storm.png", 2, "Air"));
-            items.Add("earthquake", new ItemViewModel("Earthquake", "../Images/earthquake.png", 2, "Disaster"));
-            items.Add("island", new ItemViewModel("Island", "../Images/island.png", 2, "Water"));
-            items.Add("life", new ItemViewModel("Life", "../Images/life.png", 2, "Energy"));
-            items.Add("gayser", new ItemViewModel("Gayser", "../Images/gayser.png", 2, "Earth"));
-            items.Add("mud", new ItemViewModel("Mud", "../Images/mud.png", 2, "Earth"));
+        public Dictionary<string, List<Combination>> GetCombinationsForLevel(int level)
+        {
+            var combos = GetCombinations().Where(c => c.Level == level);
+            return this.CombosToDictionary(combos);
+        }
+
+        public Dictionary<string, ItemViewModel> GetItemsForLevel(int level)
+        {
+            var items = this.GetItems().Where(i => i.Level == level);
+            return this.ItemsToDictionary(items);
+        }
+
+        public Dictionary<string, List<Combination>> CombosToDictionary(IEnumerable<Combination> combos)
+        {
+            var combosDict = new Dictionary<string, List<Combination>>();
+            foreach (var combo in combos)
+            {
+                this.AddComboToDictionary(combosDict, combo);
+                var mirrorCombo = new Combination(combo.SecondElementName, combo.FirstElementName, combo.CombinedElementName, combo.Level);
+                this.AddComboToDictionary(combosDict, mirrorCombo);
+            }
+
+            return combosDict;
+        }
+
+        private Dictionary<string, ItemViewModel> ItemsToDictionary(IEnumerable<ItemViewModel> items)
+        {
+            var itemsDict = new Dictionary<string, ItemViewModel>();
+            foreach (var item in items)
+            {
+                itemsDict.Add(item.Name.ToLower(), item);
+            }
+
+            return itemsDict;
+        }
+
+        private void AddComboToDictionary(Dictionary<string, List<Combination>> combos, Combination combo)
+        {
+            if (combos.ContainsKey(combo.FirstElementName))
+            {
+                combos[combo.FirstElementName].Add(combo);
+            }
+            else
+            {
+                combos.Add(combo.FirstElementName, new List<Combination>() { combo });
+            }
+        }
+
+        private List<ItemViewModel> GetItems()
+        {
+            var items = new List<ItemViewModel>() 
+            { 
+                new ItemViewModel("Fire", "../Images/fire.png", 1, "Fire"),
+                new ItemViewModel("Water", "../Images/water.png", 1, "Water"),
+                new ItemViewModel("Air", "../Images/air.png", 1, "Air"),
+                new ItemViewModel("Earth", "../Images/earth.png", 1, "Earth"),
+                new ItemViewModel("Steam", "../Images/steam.png", 1, "Water"),
+                new ItemViewModel("Lava", "../Images/lava.png", 1, "Fire"),
+                new ItemViewModel("Rain", "../Images/rain.png", 1, "Air"),
+                new ItemViewModel("Dust", "../Images/dust.png", 1, "Earth"),
+                new ItemViewModel("Swamp", "../Images/swamp.png", 1, "Water"),
+                new ItemViewModel("Energy", "../Images/energy.png", 1, "Energy"),
+                new ItemViewModel("Stone", "../Images/stone.png", 2, "Earth"),
+                new ItemViewModel("Wave", "../Images/wave.png", 2, "Water"),
+                new ItemViewModel("Plasma", "../Images/plasma.png", 2, "Fire"),
+                new ItemViewModel("Storm", "../Images/storm.png", 2, "Air"),
+                new ItemViewModel("Earthquake", "../Images/earthquake.png", 2, "Disaster"),
+                new ItemViewModel("Island", "../Images/island.png", 2, "Water"),
+                new ItemViewModel("Life", "../Images/life.png", 2, "Energy"),
+                new ItemViewModel("Gayser", "../Images/gayser.png", 2, "Earth"),
+                new ItemViewModel("Mud", "../Images/mud.png", 2, "Earth"),
+            };
+
             return items;
+        }
+
+        private List<Combination> GetCombinations()
+        {
+            var combos = new List<Combination>()
+            {
+                (new Combination("Fire", "Water", "Steam", 1)),
+                (new Combination("Fire", "Earth", "Lava", 1)),
+                (new Combination("Fire", "Air", "Energy", 1)),
+                (new Combination("Fire", "Energy", "Plasma", 2)),
+                (new Combination("Water", "Earth", "Swamp", 1)),
+                (new Combination("Water", "Air", "Rain", 1)),
+                (new Combination("Water", "Lava", "Stone", 2)),
+                (new Combination("Water", "Dust", "Mud", 2)),
+                (new Combination("Water", "Energy", "Wave", 2)),
+                (new Combination("Earth", "Steam", "Gayser", 2)),
+                (new Combination("Earth", "Energy", "Earthquake", 2)),
+                (new Combination("Air", "Earth", "Dust", 1)),
+                (new Combination("Energy", "Sea", "Wave", 2)),
+                (new Combination("Rain", "Energy", "Storm", 2)),
+                (new Combination("Swamp", "Energy", "Life", 2)),
+            };
+
+            return combos;
         }
     }
 }

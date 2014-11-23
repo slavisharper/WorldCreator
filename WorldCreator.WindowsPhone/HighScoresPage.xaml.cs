@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using WorldCreator.ViewModels;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -36,6 +37,8 @@ namespace WorldCreator
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
         }
+
+        #region NavigationHelper
 
         /// <summary>
         /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.
@@ -67,6 +70,7 @@ namespace WorldCreator
         /// session.  The state will be null the first time a page is visited.</param>
         private void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
+            this.DataContext = e.NavigationParameter as GameViewModel;
         }
 
         /// <summary>
@@ -80,8 +84,6 @@ namespace WorldCreator
         private void NavigationHelper_SaveState(object sender, SaveStateEventArgs e)
         {
         }
-
-        #region NavigationHelper registration
 
         /// <summary>
         /// The methods provided in this section are simply used to allow

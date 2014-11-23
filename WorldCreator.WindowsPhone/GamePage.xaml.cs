@@ -41,10 +41,20 @@ namespace WorldCreator
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
         }
 
+        private void AddItem_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        {
+            this.model.Game.StartAddingItemMove((e.Container as Item).Name);
+        }
+
         private void AddItem_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             var el = e.OriginalSource as Item;
             model.Game.AddItemToBoard(el.Name, e.Position.X - XDelta, e.Position.Y);
+        }
+
+        private void MoveItem_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        {
+            this.model.Game.StartItemMove((e.Container as Item).Name);
         }
 
         private void MoveItem_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)

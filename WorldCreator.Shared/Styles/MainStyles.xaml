@@ -37,6 +37,9 @@
         <Setter Property="VerticalAlignment" Value="Bottom"/>
         <Setter Property="FontSize" Value="36"/>
     </Style>
+    <Style TargetType="TextBlock" x:Name="ScoreTextStyle" BasedOn="{StaticResource CenteredText}">
+        <Setter Property="FontSize" Value="24"/>
+    </Style>
     <Style TargetType="Grid" x:Name="LighBlueBackgroundTheme">
         <Setter Property="Background" Value="#7373D9" />
     </Style>

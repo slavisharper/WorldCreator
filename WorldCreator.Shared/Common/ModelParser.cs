@@ -11,12 +11,12 @@ namespace WorldCreator.Common
 {
     public class ModelParser
     {
-        public static PlayerViewModel ParseToPlayerViewModel(Player player)
+        public static IPlayerViewModel ParseToPlayerViewModel(Player player)
         {
             ApplicationDataContext data = ApplicationDataContext.Instance;
             IEnumerable<Achievment> achievments = data.GetPlayerAchievments();
             IEnumerable<AchievmentViewModel> parsedAchievments = ParseAchievments(achievments);
-            PlayerViewModel parsedPlayer = new PlayerViewModel(player.Name, parsedAchievments, player.Points, player.CombosCount);
+            IPlayerViewModel parsedPlayer = new PlayerViewModel(player.Name, parsedAchievments, player.Points, player.CombosCount);
             parsedPlayer.HighestLevelCleared = player.HighestLevelCleared;
             parsedPlayer.HighestLevelElement = player.HighestLevelElement;
             parsedPlayer.Place = player.Place;
@@ -53,6 +53,11 @@ namespace WorldCreator.Common
 
         public static Item ParseToItem(ItemViewModel item)
         {
+            if (item == null)
+            {
+                return null;
+            }
+
             var parsedItem = new Item();
             parsedItem.GroupName = item.GroupName;
             parsedItem.IconPath = item.IconPath;
@@ -115,7 +120,7 @@ namespace WorldCreator.Common
             return parsedItems;
         }
 
-        internal static Player ParseToPlayer(PlayerViewModel p)
+        internal static Player ParseToPlayer(IPlayerViewModel p)
         {
             var player = new Player();
             player.CombosCount = p.CombosCount;

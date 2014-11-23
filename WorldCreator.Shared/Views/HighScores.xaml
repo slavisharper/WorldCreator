@@ -6,10 +6,61 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="300"
+    d:DesignHeight="800"
     d:DesignWidth="400">
     
-    <Grid>
-
+    <Grid MaxWidth="500" MinWidth="400">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <ListView Grid.Row="0"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="3"
+                  SelectionMode="None"
+                  VerticalAlignment="Center"
+                  ItemsSource="{Binding Scores}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal"
+                                Margin="20, 5, 20, 5"
+                                VerticalAlignment="Center">
+                        <TextBlock MinWidth="50"
+                                   Style="{StaticResource ScoreTextStyle}"
+                                   Text="{Binding Place}"/>
+                        <TextBlock MinWidth="200"
+                                   Style="{StaticResource ScoreTextStyle}"
+                                   Text="{Binding Name}"/>
+                        <TextBlock MinWidth="50"
+                                   Style="{StaticResource ScoreTextStyle}"
+                                   Text="{Binding CombosCount}"/>
+                        <TextBlock MinWidth="50"
+                                   Style="{StaticResource ScoreTextStyle}"
+                                   Text="{Binding Points}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Grid.Row="1"
+                Grid.Column="0"
+                Content="Prev"
+                CommandParameter="Prev"
+                IsEnabled="{Binding IsPrevPageAvailable}"
+                Command="{Binding RetrieveScores}"/>
+        <TextBlock Grid.Row="1"
+                   Grid.Column="1"
+                   Style="{StaticResource ScoreTextStyle}"
+                   Text="{Binding ScorePage}"/>
+        <Button Grid.Row="1"
+                Grid.Column="2"
+                Content="Next"
+                IsEnabled="{Binding IsNextPageAvailable}"
+                CommandParameter="Next"
+                Command="{Binding RetrieveScores}"/>
     </Grid>
 </UserControl>

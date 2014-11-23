@@ -10,24 +10,34 @@
     using WorldCreator.GameLogic;
     using WorldCreator.Models;
 
-    public class GameViewModel : BaseViewModel
+    public class GameViewModel : BaseViewModel, IGameViewModel
     {
         private ObservableCollection<ItemViewModel> itemsOnBoard;
         private ObservableCollection<GroupViewModel> groups;
         private GroupViewModel selectedGroup;
         private CombinatorEngine comboEngine;
         private ApplicationDataContext data;
-        private PlayerViewModel currentPlayer;
+        private IPlayerViewModel currentPlayer;
+        private IScoreManager scoreManager;
+        private ItemViewModel currentMovedItem;
+        private ItemViewModel currentAddedItem;
+        private double startedMoveLeft;
+        private double startedMoveTop;
+        private Animator animator;
 
         public GameViewModel()
-            : this(new List<ItemViewModel>(), new ObservableCollection<GroupViewModel>())
+            : this(new List<ItemViewModel>(), new ObservableCollection<GroupViewModel>(),
+                   new CombinatorEngine(), new ParseConnection())
         { }
 
-        public GameViewModel(IEnumerable<ItemViewModel> itemsOnBoard, ObservableCollection<GroupViewModel> playerGroups)
+        public GameViewModel(IEnumerable<ItemViewModel> itemsOnBoard, IEnumerable<GroupViewModel> playerGroups,
+                             CombinatorEngine engine, IScoreManager scoreManager)
         {
             this.ItemsOnBoard = itemsOnBoard;
             this.PlayerGroups = playerGroups;
-            this.comboEngine = new CombinatorEngine();
+            this.comboEngine = engine;
+            this.scoreManager = scoreManager;
+            this.animator = new Animator();
             this.data = ApplicationDataContext.Instance;
         }
 
@@ -44,7 +54,7 @@
             }
         }
 
-        public PlayerViewModel Player 
+        public IPlayerViewModel Player 
         {
             get { return this.currentPlayer; }
             set
@@ -107,19 +117,30 @@
 
         public void AddItemToBoard(string itemName, double x, double y)
         {
-            ItemViewModel itemToAdd = this.GetItem(itemName, this.selectedGroup.Items);
-            this.AddItemToBoard(itemToAdd, x, y);
+            if (this.currentAddedItem.Name != null && this.currentAddedItem.Name == itemName)
+            {
+                this.AddItemToBoard(this.currentAddedItem, x, y);
+            }
         }
 
         public async void AddItemToBoard(ItemViewModel item, double x, double y)
         {
-            if (item != null && this.GetItem(item.Name, this.ItemsOnBoard) == null)
+            if (item != null)
             {
-                item.Top = y;
-                item.Left = x;
-                (this.ItemsOnBoard as ObservableCollection<ItemViewModel>).Add(item);
-                var dbItem = ModelParser.ParseToItem(item);
-                await this.data.AddItemToBoard(dbItem);
+                var element = this.GetItem(item.Name, this.ItemsOnBoard);
+                if (element == null)
+	            {
+		            item.Top = y;
+                    item.Left = x;
+                    (this.ItemsOnBoard as ObservableCollection<ItemViewModel>).Add(item);
+                    var dbItem = ModelParser.ParseToItem(item);
+                    await this.data.AddItemToBoard(dbItem);
+	            }
+                else
+                {
+                    this.animator.MoveItem(element, x , y);
+                }
+                
             }
         }
 
@@ -136,72 +157,97 @@
             this.data.RemoveItemFromBoard(dbItem);
         }
 
-        internal void MoveItemOnBoard(string name, double deltaX, double deltaY, double width, double height)
+        public void MoveItemOnBoard(string name, double deltaX, double deltaY, double width, double height)
         {
-            var item = this.GetItem(name, this.itemsOnBoard);
-            if (item == null)
+            if (this.currentMovedItem == null)
             {
                 return;
             }
 
-            item.Left += deltaX;
-            item.Top += deltaY;
+            if (name == this.currentMovedItem.Name)
+            {
+                this.currentMovedItem.Left += deltaX;
+                this.currentMovedItem.Top += deltaY;
 
-            if (item.Left < 0)
-            {
-                item.Left = 0;
-            }
-            else if (item.Left > (width - 100))
-            {
-                item.Left = width - 100;
-            }
+                if (this.currentMovedItem.Left < 0)
+                {
+                    this.currentMovedItem.Left = 0;
+                }
+                else if (this.currentMovedItem.Left > (width - 100))
+                {
+                    this.currentMovedItem.Left = width - 100;
+                }
 
-            if (item.Top < 0)
-            {
-                item.Top = 0;
-            }
-            else if (item.Top > (height - 100))
-            {
-                item.Top = height - 100;
+                if (this.currentMovedItem.Top < 0)
+                {
+                    this.currentMovedItem.Top = 0;
+                }
+                else if (this.currentMovedItem.Top > (height - 100))
+                {
+                    this.currentMovedItem.Top = height - 100;
+                }
             }
         }
 
-        internal void CheckForCombination(string name)
+        public void StartAddingItemMove(string name)
         {
-            var movedItem = this.GetItem(name, this.itemsOnBoard);
-            foreach (var item in this.itemsOnBoard)
+            var movingItem = this.GetItem(name, this.SelectedGroup.Items);
+            this.currentAddedItem = movingItem;
+        }
+
+        public void StartItemMove(string name)
+        {
+            var movingItem = this.GetItem(name, this.itemsOnBoard);
+            this.startedMoveLeft = movingItem.Left;
+            this.startedMoveTop = movingItem.Top;
+            this.currentMovedItem = movingItem;
+        }
+
+        public void CheckForCombination(string name)
+        {
+            bool isCombinationPerformed = false;
+            if (this.currentMovedItem != null && name == this.currentMovedItem.Name)
             {
-                if (Math.Abs(item.Left - movedItem.Left) < 30 && 
-                    Math.Abs(item.Top - movedItem.Top) < 30 &&
-                    item != movedItem)
+                foreach (var item in this.itemsOnBoard)
                 {
-                    this.CombineItems(item, movedItem);
-                    break;
+                    if (Math.Abs(item.Left - this.currentMovedItem.Left) < 30 &&
+                        Math.Abs(item.Top - this.currentMovedItem.Top) < 30 &&
+                        item != this.currentMovedItem)
+                    {
+                        this.CombineItems(item, this.currentMovedItem);
+                        isCombinationPerformed = true;
+                        break;
+                    }
                 }
+            }
+            if(!isCombinationPerformed)
+            {
+                this.data.UpdateItemPositionAsync(ModelParser.ParseToItem(this.currentMovedItem));
             }
         }
 
         private void CombineItems(ItemViewModel item, ItemViewModel movedItem)
         {
             var combinedItem = this.comboEngine.PerformCombination(new Combination(item.Name, movedItem.Name));
-                    if (combinedItem != null)
-                    {
-                        combinedItem.Left = movedItem.Left;
-                        combinedItem.Top = movedItem.Top;
-                        this.RemoveItem(movedItem);
-                        this.RemoveItem(item);
-                        this.AddItemToGroup(combinedItem);
-                        this.AddItemToBoard(combinedItem, movedItem.Left, movedItem.Top);
-                        this.Player.CombosCount += 1;
-                        this.Player.Points += 10 * combinedItem.Level;
-                        this.Player.HighestLevelElement = 
-                            Math.Max(this.Player.HighestLevelElement, combinedItem.Level);
-                        this.data.UpdatePlayerState(ModelParser.ParseToPlayer(this.Player));
-                    }
-                    else
-                    {
-                        // If it is not possible move back the element
-                    }
+            if (combinedItem != null)
+            {
+                combinedItem.Left = movedItem.Left;
+                combinedItem.Top = movedItem.Top;
+                this.RemoveItem(movedItem);
+                this.RemoveItem(item);
+                this.AddItemToGroup(combinedItem);
+                this.AddItemToBoard(combinedItem, movedItem.Left, movedItem.Top);
+                this.Player.CombosCount += 1;
+                this.Player.Points += 10 * combinedItem.Level;
+                this.Player.HighestLevelElement = 
+                    Math.Max(this.Player.HighestLevelElement, combinedItem.Level);
+                this.data.UpdatePlayerState(ModelParser.ParseToPlayer(this.Player));
+                this.Player.UpdateScore();
+            }
+            else
+            {
+                this.animator.MoveItem(movedItem, this.startedMoveLeft, this.startedMoveTop);
+            }
         }
 
         private void AddItemToGroup(ItemViewModel combinedItem)

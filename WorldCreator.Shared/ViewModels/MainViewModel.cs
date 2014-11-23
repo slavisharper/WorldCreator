@@ -16,7 +16,7 @@
     {
         private const string PlayerNameKey = "name";
         private ApplicationDataContext dataContext;
-        private GameViewModel game;
+        private IGameViewModel game;
         private ApplicationDataContainer localSettings;
         private ObservableCollection<string> playerNames;
         private ICommand commandLogUser;
@@ -76,7 +76,7 @@
             }
         }
 
-        public GameViewModel Game 
+        public IGameViewModel Game 
         {
             get 
             { 
