@@ -8,8 +8,9 @@
     mc:Ignorable="d"
     d:DesignHeight="800"
     d:DesignWidth="400">
-    
-    <Grid MaxWidth="500" MinWidth="400">
+
+    <Grid MaxWidth="500" MinWidth="400"
+           Style="{StaticResource LighBlueBackgroundTheme}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="2*"/>
@@ -49,6 +50,7 @@
         <Button Grid.Row="1"
                 Grid.Column="0"
                 Content="Prev"
+                Style="{StaticResource CenteredButton}"
                 CommandParameter="Prev"
                 IsEnabled="{Binding IsPrevPageAvailable}"
                 Command="{Binding RetrieveScores}"/>
@@ -59,6 +61,7 @@
         <Button Grid.Row="1"
                 Grid.Column="2"
                 Content="Next"
+                Style="{StaticResource CenteredButton}"
                 IsEnabled="{Binding IsNextPageAvailable}"
                 CommandParameter="Next"
                 Command="{Binding RetrieveScores}"/>

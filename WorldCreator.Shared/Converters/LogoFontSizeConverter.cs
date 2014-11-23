@@ -10,6 +10,7 @@ namespace WorldCreator.Converters
         private const double SmallSize = 28;
         private const double BigSize = 36;
         private const double DefaultSize = 18;
+
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             double width = 0;

@@ -116,6 +116,13 @@
                 new ItemViewModel("Life", "../Images/life.png", 2, "Energy"),
                 new ItemViewModel("Gayser", "../Images/gayser.png", 2, "Earth"),
                 new ItemViewModel("Mud", "../Images/mud.png", 2, "Earth"),
+                new ItemViewModel("Weeds", "../Images/weeds.png", 3, "Basic Life"),
+                new ItemViewModel("Metal", "../Images/metal.png", 3, "Earth"),
+                new ItemViewModel("Volcano", "../Images/volcano.png", 3, "Disaster"),
+                new ItemViewModel("Sand", "../Images/sand.png", 3, "Earth"),
+                new ItemViewModel("Egg", "../Images/egg.png", 3, "Basic Life"),
+                new ItemViewModel("Human", "../Images/human.png", 3, "Human"),
+                new ItemViewModel("Bacteria", "../Images/bacteria.png", 3, "Basic Life"),
             };
 
             return items;
@@ -140,6 +147,14 @@
                 (new Combination("Energy", "Sea", "Wave", 2)),
                 (new Combination("Rain", "Energy", "Storm", 2)),
                 (new Combination("Swamp", "Energy", "Life", 2)),
+                new Combination("Water", "Life", "Weeds", 3),
+                new Combination("Swamp", "Life", "Bacteria", 3),
+                new Combination("Stone", "Fire", "Metal", 3),
+                new Combination("Lava", "Gayser", "Volcano", 3),
+                new Combination("Stone", "Water", "Sand", 3),
+                new Combination("Stone", "Life", "Egg", 3),
+                new Combination("Mud", "Life", "Human", 3),
+
             };
 
             return combos;

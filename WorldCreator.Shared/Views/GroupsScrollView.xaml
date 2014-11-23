@@ -11,8 +11,7 @@
 
     <ScrollViewer HorizontalScrollBarVisibility="Visible"
                   VerticalScrollBarVisibility="Disabled"
-                  Background="#FFE800" 
-                  Opacity="0.7" >
+                  Style="{StaticResource GroupsScrollViewStyle}" >
         <ListView ItemsSource="{Binding PlayerGroups}"
                   SelectedItem="{Binding SelectedGroup, Mode=TwoWay}">
             <ListView.ItemsPanel>

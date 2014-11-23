@@ -5,6 +5,7 @@
     xmlns:local="using:WorldCreator"
     xmlns:views="using:WorldCreator.Views"
     xmlns:converters="using:WorldCreator.Converters"
+    xmlns:ap="using:WorldCreator.AttachedProperties"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:WorldCreator.ViewModels"
@@ -15,7 +16,7 @@
         <converters:LogoFontSizeConverter x:Key="LogoFontSizeConverter" />
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="7*"/>
@@ -69,18 +70,18 @@
                        Style="{StaticResource CenteredText}"
                        Grid.Row="1"/>
                 <Button Content="Change" 
-                        VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
+                        Style="{StaticResource CenteredButton}"
                         Click="ChangeButton_Click"
                         Grid.Row="2"/>
             </Grid>
         </Grid>
         <Grid Grid.Column="1" 
+              Style="{StaticResource LighBlueBackgroundTheme}"
               Name="PageContainerGrid">
             <Grid Name="StartPage" 
-                  Canvas.ZIndex="1" 
-                   Style="{StaticResource LighBlueBackgroundTheme}" >
-                <views:StartupView></views:StartupView>
+                  Style="{StaticResource LighBlueBackgroundTheme}"
+                  Canvas.ZIndex="1"  >
+                <views:StartupView />
             </Grid>
             <Grid Name="GamePage"
                   DataContext="{Binding Game}"
@@ -94,9 +95,8 @@
                 </Grid.Background>
                 <views:GroupsScrollView Grid.Row="0"/>
                 <ScrollViewer Grid.Row="1"
-                              Width="100"
-                              Background="LightBlue"
-                              Opacity="0.8"
+                              Width="110"
+                              Style="{StaticResource ItemsScrollViewStyle}"
                               HorizontalAlignment="Left">
                     <ListView SelectionMode="None"
                               HorizontalAlignment="Center"
@@ -108,8 +108,8 @@
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <views:Item Width="80"
-                                    Margin="0, 5, 0, 5"
+                                <views:Item Style="{StaticResource ScrollItemStyle}"
+                                            
                                     ManipulationMode="All"
                                     ManipulationStarted="AddItem_ManipulationStarted"
                                     ManipulationCompleted="AddItem_ManipulationCompleted"/>
@@ -119,11 +119,10 @@
                 </ScrollViewer>
                 <views:CanvasListView Grid.Row="1"
                         Name="GameCanvas"
+                        Margin="110, 0 ,0, 0"
+                        Style="{StaticResource GameCanvasStyle}"
                         SelectionMode="None"
-                        ItemsSource="{Binding ItemsOnBoard}"
-                        Background="AntiqueWhite"
-                        Opacity="0.8"
-                        Margin="100, 0, 0, 0">
+                        ItemsSource="{Binding ItemsOnBoard}">
                     <views:CanvasListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <Canvas/>
@@ -145,22 +144,19 @@
                 </views:CanvasListView>
             </Grid>
             <Grid Name="ProfilePage"
-                  Canvas.ZIndex="0" 
-                   Style="{StaticResource LighBlueBackgroundTheme}">
-                <TextBlock FontSize="36">PROFILE PAGE</TextBlock>
+                  Style="{StaticResource LighBlueBackgroundTheme}"
+                  Canvas.ZIndex="0" >
                 <views:Profile DataContext="{Binding Game.Player}"/>
             </Grid>
             <Grid Name="HighScoresPage"
-                  Canvas.ZIndex="0" 
-                  Background="Black">
+                  Style="{StaticResource LighBlueBackgroundTheme}"
+                  Canvas.ZIndex="0">
                 <views:HighScores DataContext="{Binding Game.Player}" />
             </Grid>
             <Grid Name="AboutPage" 
-                  Canvas.ZIndex="0" 
-                  Background="Cyan"
-                  >
-                <TextBlock FontSize="36">ABOUT PAGE</TextBlock>
-                <views:About></views:About>
+                  Style="{StaticResource LighBlueBackgroundTheme}"
+                  Canvas.ZIndex="0" >
+                <views:About />
             </Grid>
         </Grid>
     </Grid>

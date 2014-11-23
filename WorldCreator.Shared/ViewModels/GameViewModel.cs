@@ -9,6 +9,7 @@
     using WorldCreator.Extensions;
     using WorldCreator.GameLogic;
     using WorldCreator.Models;
+    //using Windows.Media.
 
     public class GameViewModel : BaseViewModel, IGameViewModel
     {
@@ -41,7 +42,7 @@
             this.data = ApplicationDataContext.Instance;
         }
 
-        public GroupViewModel SelectedGroup 
+        public GroupViewModel SelectedGroup
         {
             get
             {
@@ -54,7 +55,7 @@
             }
         }
 
-        public IPlayerViewModel Player 
+        public IPlayerViewModel Player
         {
             get { return this.currentPlayer; }
             set
@@ -66,7 +67,7 @@
 
         public IEnumerable<ItemViewModel> ItemsOnBoard
         {
-            get 
+            get
             {
                 if (this.itemsOnBoard == null)
                 {
@@ -87,7 +88,7 @@
             }
         }
 
-        public IEnumerable<GroupViewModel> PlayerGroups 
+        public IEnumerable<GroupViewModel> PlayerGroups
         {
             get
             {
@@ -129,18 +130,19 @@
             {
                 var element = this.GetItem(item.Name, this.ItemsOnBoard);
                 if (element == null)
-	            {
-		            item.Top = y;
+                {
+                    item.Top = y;
                     item.Left = x;
                     (this.ItemsOnBoard as ObservableCollection<ItemViewModel>).Add(item);
                     var dbItem = ModelParser.ParseToItem(item);
                     await this.data.AddItemToBoard(dbItem);
-	            }
+                }
                 else
                 {
-                    this.animator.MoveItem(element, x , y);
+                    this.animator.MoveItem(element, x, y);
                 }
-                
+
+                item.IsSelected = false;
             }
         }
 
@@ -166,32 +168,18 @@
 
             if (name == this.currentMovedItem.Name)
             {
-                this.currentMovedItem.Left += deltaX;
-                this.currentMovedItem.Top += deltaY;
-
-                if (this.currentMovedItem.Left < 0)
-                {
-                    this.currentMovedItem.Left = 0;
-                }
-                else if (this.currentMovedItem.Left > (width - 100))
-                {
-                    this.currentMovedItem.Left = width - 100;
-                }
-
-                if (this.currentMovedItem.Top < 0)
-                {
-                    this.currentMovedItem.Top = 0;
-                }
-                else if (this.currentMovedItem.Top > (height - 100))
-                {
-                    this.currentMovedItem.Top = height - 100;
-                }
+                this.MoveItem(this.currentMovedItem, deltaX, deltaY, width, height);
             }
         }
 
         public void StartAddingItemMove(string name)
         {
             var movingItem = this.GetItem(name, this.SelectedGroup.Items);
+            if (movingItem != null)
+            {
+                movingItem.IsSelected = true;    
+            }
+
             this.currentAddedItem = movingItem;
         }
 
@@ -220,7 +208,7 @@
                     }
                 }
             }
-            if(!isCombinationPerformed)
+            if (!isCombinationPerformed)
             {
                 this.data.UpdateItemPositionAsync(ModelParser.ParseToItem(this.currentMovedItem));
             }
@@ -231,18 +219,23 @@
             var combinedItem = this.comboEngine.PerformCombination(new Combination(item.Name, movedItem.Name));
             if (combinedItem != null)
             {
+                var group = this.GetGroup(combinedItem.GroupName);
+                var isExisting = group != null && this.GetItem(combinedItem.Name, group.Items) != null;
                 combinedItem.Left = movedItem.Left;
                 combinedItem.Top = movedItem.Top;
                 this.RemoveItem(movedItem);
                 this.RemoveItem(item);
                 this.AddItemToGroup(combinedItem);
                 this.AddItemToBoard(combinedItem, movedItem.Left, movedItem.Top);
-                this.Player.CombosCount += 1;
-                this.Player.Points += 10 * combinedItem.Level;
-                this.Player.HighestLevelElement = 
-                    Math.Max(this.Player.HighestLevelElement, combinedItem.Level);
-                this.data.UpdatePlayerState(ModelParser.ParseToPlayer(this.Player));
-                this.Player.UpdateScore();
+                if (!isExisting)
+                {
+                    this.Player.CombosCount += 1;
+                    this.Player.Points += 10 * combinedItem.Level;
+                    this.Player.HighestLevelElement =
+                        Math.Max(this.Player.HighestLevelElement, combinedItem.Level);
+                    this.data.UpdatePlayerState(ModelParser.ParseToPlayer(this.Player));
+                    this.Player.UpdateScore();
+                }
             }
             else
             {
@@ -259,7 +252,7 @@
                 {
                     group.Items.Add(combinedItem);
                 }
-                
+
                 if (this.SelectedGroup != null && group.Name == this.SelectedGroup.Name)
                 {
                     this.OnPropertyChanged("SelectedGroup");
@@ -271,7 +264,31 @@
                 group = new GroupViewModel(combinedItem.GroupName, new List<ItemViewModel>() { combinedItem });
                 (this.PlayerGroups as ObservableCollection<GroupViewModel>).Add(group);
             }
-            
+
+        }
+
+        private void MoveItem(ItemViewModel item, double deltaX, double deltaY, double width, double height)
+        {
+            item.Left += deltaX;
+            item.Top += deltaY;
+
+            if (item.Left < 0)
+            {
+                item.Left = 0;
+            }
+            else if (item.Left > (width - 100))
+            {
+                item.Left = width - 100;
+            }
+
+            if (item.Top < 0)
+            {
+                item.Top = 0;
+            }
+            else if (item.Top > (height - 100))
+            {
+                item.Top = height - 100;
+            }
         }
 
         private GroupViewModel GetGroup(string name)

@@ -26,14 +26,21 @@
         public async void UploadScore(HighScore score)
         {
             var scoreQuery = new ParseQuery<HighScore>();
-            var result = await scoreQuery.WhereEqualTo("playerName", score.PlayerName).FirstOrDefaultAsync();
+            var result = await scoreQuery.WhereEqualTo("playerName", score.PlayerName).FirstOrDefaultAsync() as HighScore;
             if (result != null)
             {
                 result.CombosCount = score.CombosCount;
                 result.HighestLevelCleared = score.HighestLevelCleared;
                 result.HighestLevelElement = score.HighestLevelElement;
                 result.Points = score.Points;
-                await result.SaveAsync();
+
+                // Date Format exception!?! Really ? It is your own fucking date .!.
+                try
+                {
+                    await result.SaveAsync();
+                }
+                catch (Exception)
+                { }
             }
             else
             {

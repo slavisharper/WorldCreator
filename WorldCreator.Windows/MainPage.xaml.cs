@@ -1,9 +1,11 @@
 ﻿namespace WorldCreator
 {
+    using Windows.Graphics.Display;
+    using Windows.UI;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Input;
-
+    using Windows.UI.Xaml.Media;
     using WorldCreator.ViewModels;
     using WorldCreator.Views;
 
@@ -15,7 +17,7 @@
     public sealed partial class MainPage : Page
     {
         private MainViewModel model;
-        private const double XDelta = 100;
+        private const double XDelta = 110;
         private const float TopScrollViewToGameFieldRatio = 1.2f;
 
         public MainPage()
@@ -25,15 +27,21 @@
             this.DataContext = model;
         }
 
+        private void AddItem_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        {
+            var item = (e.Container as Item);
+            this.model.Game.StartAddingItemMove(item.Name);
+        }
+
         private void AddItem_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             var el = e.OriginalSource as Item;
             model.Game.AddItemToBoard(el.Name, e.Position.X - XDelta, e.Position.Y);
         }
 
-        private void MoveItem_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        private void MoveItem_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
-            this.model.Game.CheckForCombination((e.Container as Item).Name);
+            this.model.Game.StartItemMove((e.Container as Item).Name);
         }
 
         private void MoveItem_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -46,14 +54,9 @@
             model.Game.MoveItemOnBoard(element.Name, x, y, width, height);
         }
 
-        private void MoveItem_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        private void MoveItem_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            this.model.Game.StartItemMove((e.Container as Item).Name);
-        }
-
-        private void AddItem_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
-        {
-            this.model.Game.StartAddingItemMove((e.Container as Item).Name);
+            this.model.Game.CheckForCombination((e.Container as Item).Name);
         }
 
         private void Item_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -92,6 +95,7 @@
         private void HighScoresButton_Click(object sender, RoutedEventArgs e)
         {
             this.HidePages();
+            this.model.Game.Player.LoadScores();
             Canvas.SetZIndex(this.HighScoresPage, 1);
         }
 

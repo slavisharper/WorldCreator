@@ -32,5 +32,7 @@
         IEnumerable<AchievmentViewModel> Achievments { get; set; }
 
         void UpdateScore();
+
+        void LoadScores();
     }
 }

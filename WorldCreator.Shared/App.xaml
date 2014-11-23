@@ -9,6 +9,11 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/MainStyles.xaml" />
                 <ResourceDictionary Source="Styles/PlatformStyles.xaml" />
+                <ResourceDictionary>
+                    <SolidColorBrush x:Key="AppDarkBlue" Color="#0D56A6" />
+                    <SolidColorBrush x:Key="AppLightBlue" Color="#04819E" />
+                    <SolidColorBrush x:Key="AppBlueGreen" Color="#00A975" />
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

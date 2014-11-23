@@ -13,6 +13,9 @@
         private const int ScoresPerPage = 10;
         private string name;
         private int points;
+        private int currentScorePage;
+        private bool isNextPageAvailable;
+        private bool isPrevPageAvailable;
         private ICommand getScores;
         private ObservableCollection<AchievmentViewModel> achievments;
         private ObservableCollection<HighScoreViewModel> scores;
@@ -59,11 +62,35 @@
 
         public int HighestLevelCleared { get; set; }
 
-        public int ScorePage { get; set; }
+        public int ScorePage 
+        {
+            get { return this.currentScorePage; }
+            set
+            {
+                this.currentScorePage = value;
+                this.OnPropertyChanged("ScorePage");
+            }
+        }
 
-        public bool IsNextPageAvailable { get; set; }
+        public bool IsNextPageAvailable 
+        {
+            get { return this.isNextPageAvailable; }
+            set
+            {
+                this.isNextPageAvailable = value;
+                this.OnPropertyChanged("IsNextPageAvailable");
+            }
+        }
 
-        public bool IsPrevPageAvailable { get; set; }
+        public bool IsPrevPageAvailable
+        {
+            get { return this.isPrevPageAvailable; }
+            set
+            {
+                this.isPrevPageAvailable = value;
+                this.OnPropertyChanged("IsPrevPageAvailable");
+            }
+        }
 
         public ICommand RetrieveScores
         {
@@ -134,24 +161,24 @@
             string direction = obj as string;
             if (direction != null)
             {
-                if (direction == "Prev" && this.IsNextPageAvailable)
+                if (direction == "Prev" && this.ScorePage - 1 > 0)
                 {
-                    this.ScorePage++;
+                    this.ScorePage = this.ScorePage - 1;
                 }
-                else if (direction == "Next" && this.ScorePage - 1 > 0)
+                else if (direction == "Next" && this.IsNextPageAvailable)
                 {
-                    this.ScorePage--;
+                    this.ScorePage = this.ScorePage + 1;
                 }
 
                 this.LoadScores();
             }
         }
 
-        private async void LoadScores()
+        public async void LoadScores()
         {
             var fetchedScores = await this.scoreManager.GetScoresPage(ScoresPerPage, this.ScorePage);
             var parsedScores = fetchedScores.AsQueryable().Select(HighScoreViewModel.FromHighScore).ToList();
-            int startPlace = 1 * this.ScorePage;
+            int startPlace = ScoresPerPage * (this.ScorePage - 1) + 1;
             int count = 0;
             foreach (var result in parsedScores)
             {
@@ -172,7 +199,7 @@
             }
             else
             {
-                this.IsNextPageAvailable = false;
+                this.IsNextPageAvailable = true;
             }
 
             if (this.ScorePage < 2)

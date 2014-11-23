@@ -15,7 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)AttachedProperties\CanvasExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AttachedProperties\Properties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Animator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\ModelParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\NavigationHelper.cs" />
@@ -111,6 +111,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Images\fire.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\gayser.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\island.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\lava.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\life.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\mud.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\plane.png" />
@@ -125,7 +126,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Images\thunder.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\tornado.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\volcano.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Images\water-512.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\water.png" />
   </ItemGroup>
 </Project>

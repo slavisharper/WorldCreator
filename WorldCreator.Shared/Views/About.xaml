@@ -6,10 +6,30 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
-    
-    <Grid>
+    d:DesignHeight="800"
+    d:DesignWidth="480">
 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Style="{StaticResource AboutPageHeaderText}"
+                   Text="Red Hood's"
+                   Grid.Row="0"/>
+        <TextBlock Style="{StaticResource AboutPageLogoStyle}"
+                   Text="World Creator"
+                   Grid.Row="1"/>
+        <TextBlock Style="{StaticResource AboutPageTextStyle}"
+                   TextAlignment="Center"
+                   Grid.Row="2">
+            Combine elements and create the world from scratch. 
+            Become the best creator!
+        </TextBlock>
+        <Image Source="../Images/howtoplay.png"
+               Grid.Row="3"
+               VerticalAlignment="Bottom"/>
     </Grid>
 </UserControl>

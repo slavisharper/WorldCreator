@@ -23,18 +23,17 @@
         </Grid.RowDefinitions>
 
         <!-- Title Panel -->
-        <views:GroupsScrollView Grid.Row="0" Margin="5"/>
+        <views:GroupsScrollView Grid.Row="0"/>
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot">
             <ScrollViewer Grid.Row="1"
-                              Width="80"
-                              Background="LightBlue"
-                              Opacity="0.8"
-                              HorizontalAlignment="Left">
+                          Style="{StaticResource ItemsScrollViewStyle}"
+                          Width="80"
+                          HorizontalAlignment="Left">
                 <ListView SelectionMode="None"
-                              HorizontalAlignment="Center"
-                        ItemsSource="{Binding SelectedGroup.Items}" >
+                          HorizontalAlignment="Center"
+                          ItemsSource="{Binding SelectedGroup.Items}" >
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>
@@ -42,8 +41,7 @@
                     </ListView.ItemsPanel>
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <views:Item Width="60"
-                                    Margin="0, 5, 0, 5"
+                            <views:Item Style="{StaticResource ScrollItemStyle}"
                                     ManipulationMode="TranslateY, TranslateX"
                                     ManipulationStarted="AddItem_ManipulationStarted"
                                    ManipulationCompleted="AddItem_ManipulationCompleted"/>
@@ -54,9 +52,8 @@
             <views:CanvasListView Grid.Row="1"
                         Name="GameCanvas"
                         SelectionMode="None"
+                        Style="{StaticResource GameCanvasStyle}"
                         ItemsSource="{Binding ItemsOnBoard}"
-                        Background="AntiqueWhite"
-                        Opacity="0.8"
                         Margin="80, 0, 0, 0">
                 <views:CanvasListView.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -71,7 +68,7 @@
                                 Canvas.Top="{Binding Y}"
                                 ManipulationMode="All"
                                 DoubleTapped="Item_DoubleTapped"
-                            ManipulationStarted="MoveItem_ManipulationStarted"
+                                ManipulationStarted="MoveItem_ManipulationStarted"
                                 ManipulationCompleted="MoveItem_ManipulationCompleted"
                                 ManipulationDelta="MoveItem_ManipulationDelta" />
                     </DataTemplate>

@@ -5,6 +5,7 @@
         private string iconPath;
         private double top;
         private double left;
+        private bool isSelected;
 
         public ItemViewModel() 
             :this("", "", 0, "")
@@ -20,6 +21,7 @@
             this.IconPath = iconPath;
             this.Level = level;
             this.GroupName = groupName;
+            this.IsSelected = false;
         }
 
         public double Top
@@ -57,6 +59,19 @@
             {
                 this.iconPath = value;
                 this.OnPropertyChanged("IconPath");
+            }
+        }
+
+        public bool IsSelected 
+        {
+            get
+            {
+                return this.isSelected;
+            }
+            set
+            {
+                this.isSelected = value;
+                this.OnPropertyChanged("IsSelected");
             }
         }
 
