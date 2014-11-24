@@ -112,6 +112,7 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audio\SoundPlayer.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

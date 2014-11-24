@@ -5,12 +5,12 @@
     using System.Collections.ObjectModel;
     using System.Net.Http;
     using Windows.Foundation;
+    using WorldCreator.Audio;
     using WorldCreator.Common;
     using WorldCreator.Data;
     using WorldCreator.Extensions;
     using WorldCreator.GameLogic;
     using WorldCreator.Models;
-    //using Windows.Media.
 
     public class GameViewModel : BaseViewModel, IGameViewModel
     {
@@ -23,6 +23,7 @@
         private IScoreManager scoreManager;
         private ItemViewModel currentMovedItem;
         private ItemViewModel currentAddedItem;
+        private ISoundPlayer soundPlayer;
         private double startedMoveLeft;
         private double startedMoveTop;
         private Animator animator;
@@ -40,6 +41,7 @@
             this.PlayerGroups = playerGroups;
             this.comboEngine = engine;
             this.scoreManager = scoreManager;
+            this.InitializePlayer();
             this.animator = new Animator();
             this.data = ApplicationDataContext.Instance;
         }
@@ -125,7 +127,8 @@
                 this.AddItemToBoard(this.currentAddedItem, x, y);
             }
         }
-
+        
+        // TO DO: add added sound
         public async void AddItemToBoard(ItemViewModel item, double x, double y)
         {
             if (item != null)
@@ -164,6 +167,7 @@
             this.RemoveItem(itemToRemove);
         }
 
+        // TO DO: add removed sound
         public void RemoveItem(ItemViewModel item)
         {
             (this.ItemsOnBoard as ObservableCollection<ItemViewModel>).Remove(item);
@@ -184,6 +188,7 @@
             }
         }
 
+        // TO DO: add grabbed sound
         public void StartAddingItemMove(string name)
         {
             var movingItem = this.GetItem(name, this.SelectedGroup.Items);
@@ -226,6 +231,7 @@
             }
         }
 
+        // TO DO: add combined sound
         private void CombineItems(ItemViewModel item, ItemViewModel movedItem)
         {
             var combinedItem = this.comboEngine.PerformCombination(new Combination(item.Name, movedItem.Name));
@@ -301,6 +307,11 @@
             {
                 item.Top = height - 100;
             }
+        }
+
+        private void InitializePlayer()
+        {
+            this.soundPlayer = new SoundPlayer();
         }
 
         private GroupViewModel GetGroup(string name)

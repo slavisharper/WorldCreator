@@ -17,6 +17,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)AttachedProperties\Properties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Animator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ISoundPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\ModelParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\NavigationHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\ObservableDictionary.cs" />
@@ -35,6 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GameLogic\CombinationsGetter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameLogic\CombinatorEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameLogic\IItemsGetter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameLogic\Items.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Achievment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Parse\HighScore.cs" />
@@ -105,6 +107,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Images\air.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\algae.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\bacteria.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\corpse.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\dust.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\earth.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\earthquake.png" />
@@ -114,6 +117,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Images\fire.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\gayser.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\human.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\ironman.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\island.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\lava.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\life.png" />
@@ -122,8 +126,10 @@
     <Content Include="$(MSBuildThisFileDirectory)Images\plane.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\plasma.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\rain.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\robot.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\rock.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\sand.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\simple life.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\steam.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\stone.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\storm.png" />
@@ -133,5 +139,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Images\tornado.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\volcano.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\water.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Sounds\Ring01.wma" />
+    <Content Include="$(MSBuildThisFileDirectory)Sounds\Ring02.wma" />
+    <Content Include="$(MSBuildThisFileDirectory)Sounds\Ring03.wma" />
   </ItemGroup>
 </Project>

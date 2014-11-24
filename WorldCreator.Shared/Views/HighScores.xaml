@@ -25,6 +25,7 @@
                    Grid.Row="0"
                    Grid.Column="0"
                    Grid.ColumnSpan="3"
+                   Margin="10, 150, 10, 10"
                    FontSize="30"
                    Style="{StaticResource CenteredText}"/>
         <ListView Grid.Row="0"

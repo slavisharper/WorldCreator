@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,6 +33,8 @@ namespace WorldCreator
             model = new MainViewModel();
             this.DataContext = model;
             this.NavigationCacheMode = NavigationCacheMode.Required;
+            var player = new WorldCreator.Audio.SoundPlayer();
+            player.PlaySound("ms-appx:///Assets/Media/Ring01.wma");
         }
 
         #region Navigation
