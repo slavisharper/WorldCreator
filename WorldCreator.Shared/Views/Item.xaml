@@ -29,6 +29,6 @@
                    VerticalAlignment="Bottom"
                    IsColorFontEnabled="True"
                    Foreground="Black"
-                   FontSize="20"/>
+                   FontSize="18"/>
     </Grid>
 </UserControl>

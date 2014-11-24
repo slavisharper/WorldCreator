@@ -7,12 +7,13 @@
 
     public interface IScoreManager
     {
-        void UploadScore(HighScore score);
+
+        Task UploadScore(HighScore score);
 
         Task<IEnumerable<HighScore>> GetTopScores(int count);
 
         Task<IEnumerable<HighScore>> GetScoresPage(int count, int page);
 
-        void UploadScore(IPlayerViewModel player);
+        Task UploadScore(IPlayerViewModel player);
     }
 }

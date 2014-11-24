@@ -103,21 +103,27 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Images\air.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\algae.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\bacteria.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\dust.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\earth.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\earthquake.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\egg.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\electricity.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\energy.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\fire.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\gayser.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\human.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\island.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\lava.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\life.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\metal.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\mud.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\plane.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\plasma.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\rain.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\rock.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Images\sand.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\steam.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\stone.png" />
     <Content Include="$(MSBuildThisFileDirectory)Images\storm.png" />

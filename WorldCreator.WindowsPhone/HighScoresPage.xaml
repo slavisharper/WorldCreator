@@ -33,6 +33,9 @@
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" 
               x:Name="ContentRoot">
+            <ProgressRing IsActive="{Binding IsLoading}"
+                          Width="200"
+                          Height="200"/>
             <views:HighScores DataContext="{Binding Player}"/>
         </Grid>
     </Grid>

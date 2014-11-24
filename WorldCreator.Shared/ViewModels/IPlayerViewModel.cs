@@ -6,7 +6,6 @@
 
     public interface IPlayerViewModel
     {
-
         int CombosCount { get; set; }
 
         int HighestLevelCleared { get; set; }
@@ -26,6 +25,8 @@
         bool IsNextPageAvailable { get; set; }
 
         bool IsPrevPageAvailable { get; set; }
+
+        string ErrorMessage { get; set; }
 
         IEnumerable<HighScoreViewModel> Scores { get; set; }
 

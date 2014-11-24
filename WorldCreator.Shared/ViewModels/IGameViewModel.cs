@@ -13,6 +13,7 @@ namespace WorldCreator.ViewModels
         void StartAddingItemMove(string name);
         void MoveItemOnBoard(string name, double deltaX, double deltaY, double width, double height);
         IPlayerViewModel Player { get; set; }
+        bool IsLoading { get; set; }
         IEnumerable<GroupViewModel> PlayerGroups { get; set; }
         void RemoveItem(string name);
         void RemoveItem(ItemViewModel item);

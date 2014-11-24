@@ -54,11 +54,11 @@
         <TextBlock Grid.Row="4"
                    Grid.Column="0"
                    Style="{StaticResource ProfileHeaderStyle}"
-                   Text="Place "/>
+                   Text="Level cleared "/>
         <TextBlock Grid.Row="4"
                    Grid.Column="1"
                    Style="{StaticResource ProfileDataStyle}"
-                   Text="{Binding Place}"/>
+                   Text="{Binding HighestLevelCleared}"/>
         <ProgressRing Grid.Row="4"
                       Name="LoadingPlaceBar"
                       Grid.Column="1"

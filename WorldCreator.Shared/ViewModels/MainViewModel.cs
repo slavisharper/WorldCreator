@@ -1,5 +1,6 @@
 ﻿namespace WorldCreator.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Threading.Tasks;
@@ -11,6 +12,9 @@
     using WorldCreator.Models;
     using System.Windows.Input;
     using WorldCreator.Commands;
+    using Windows.UI.Popups;
+    using Windows.UI.Xaml.Controls;
+    using System.Net.Http;
 
     public class MainViewModel : BaseViewModel
     {
@@ -135,9 +139,37 @@
         {
             this.IsLoading = true;
             string name = obj as string;
+            bool isParseUnreacable = false;
+            try
+            {
+                await ValidatePlayer(name);
+            }
+            catch (HttpRequestException he)
+            {
+                isParseUnreacable = true;
+            }
+            catch (Parse.ParseException pe)
+            {
+                isParseUnreacable = true;
+            }
+
+            if (isParseUnreacable)
+	        {
+		        await this.ShowMessage("Networ error!", "You cannot create new user in offline mode.");
+	        }
+        }
+
+        private async Task ValidatePlayer(string name)
+        {
             if (name == null || name.Length < 3 || name.Length > 20)
             {
-                // TO DO Show alert
+                await this.ShowMessage("Name must beetween 3 and 20 symbols.", "Error! Invalid name.");
+                this.IsLoading = false;
+            }
+            else if (await ParseConnection.CheckIfNameIsTaken(name))
+            {
+                await this.ShowMessage("This name is already taken.", "Error! Invalid name.");
+                this.IsLoading = false;
             }
             else
             {
@@ -159,6 +191,13 @@
         {
             Player player = await this.dataContext.LoadPlayer(playerName);
             await this.LoadPlayerData(player);
+            await this.ShowMessage("Now you can continue your world creation..", "Player logged successfully!.");
+        }
+
+        private async Task ShowMessage(string title, string message)
+        {
+            MessageDialog dialog = new MessageDialog(title, message);
+            await dialog.ShowAsync();
         }
 
         private async Task ChangePlayer(string playerName)

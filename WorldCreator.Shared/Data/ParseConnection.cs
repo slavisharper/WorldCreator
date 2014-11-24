@@ -12,7 +12,7 @@
 
     public class ParseConnection : IScoreManager
     {
-        public void UploadScore(IPlayerViewModel player)
+        public async Task UploadScore(IPlayerViewModel player)
         {
             var score = new HighScore();
             score.CombosCount = player.CombosCount;
@@ -20,26 +20,27 @@
             score.HighestLevelElement = player.HighestLevelElement;
             score.PlayerName = player.Name;
             score.Points = player.Points;
-            this.UploadScore(score);
+            await this.UploadScore(score);
         }
 
-        public async void UploadScore(HighScore score)
+        public async Task UploadScore(HighScore score)
         {
             var scoreQuery = new ParseQuery<HighScore>();
-            var result = await scoreQuery.WhereEqualTo("playerName", score.PlayerName).FirstOrDefaultAsync() as HighScore;
-            if (result != null)
+            var result = await scoreQuery.WhereEqualTo("playerName", score.PlayerName).FirstOrDefaultAsync();
+            HighScore oldScore = result as HighScore;
+            if (oldScore != null)
             {
-                result.CombosCount = score.CombosCount;
-                result.HighestLevelCleared = score.HighestLevelCleared;
-                result.HighestLevelElement = score.HighestLevelElement;
-                result.Points = score.Points;
+                oldScore.CombosCount = score.CombosCount;
+                oldScore.HighestLevelCleared = score.HighestLevelCleared;
+                oldScore.HighestLevelElement = score.HighestLevelElement;
+                oldScore.Points = score.Points;
 
                 // Date Format exception!?! Really ? It is your own fucking date .!.
                 try
                 {
-                    await result.SaveAsync();
+                    await oldScore.SaveAsync();
                 }
-                catch (Exception)
+                catch (FormatException)
                 { }
             }
             else
@@ -62,6 +63,20 @@
                 .FindAsync();
 
             return result;
+        }
+
+        public async static Task<bool> CheckIfNameIsTaken(string name)
+        {
+            var scoreQuery = new ParseQuery<HighScore>();
+            var result = await scoreQuery.WhereEqualTo("playerName", name).FirstOrDefaultAsync() as HighScore;
+            if (result == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

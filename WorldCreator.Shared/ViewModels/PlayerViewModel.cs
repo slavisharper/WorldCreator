@@ -1,16 +1,22 @@
 ﻿namespace WorldCreator.ViewModels
 {
     using System.Linq;
+    using System.Net.Http;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Windows.Input;
     using WorldCreator.Commands;
     using WorldCreator.Data;
     using WorldCreator.Extensions;
+    using System;
+    using Windows.UI.Popups;
 
     public class PlayerViewModel : BaseViewModel, WorldCreator.ViewModels.IPlayerViewModel
     {
         private const int ScoresPerPage = 10;
+        private const string UnableToGetScoresMessage = "Unable to get top scores.";
+        private const string UnableToConnectToInternetMessage = "Unable to connect to internet.";
+
         private string name;
         private int points;
         private int currentScorePage;
@@ -20,6 +26,8 @@
         private ObservableCollection<AchievmentViewModel> achievments;
         private ObservableCollection<HighScoreViewModel> scores;
         private IScoreManager scoreManager;
+        private bool isNetworkExceptionOccurred;
+        private string getScoresErrorMessage;
 
         //TO DO edit constructor
         public PlayerViewModel(string name, IEnumerable<AchievmentViewModel> achievments, int points, int combos)
@@ -92,6 +100,16 @@
             }
         }
 
+        public string ErrorMessage 
+        {
+            get { return this.getScoresErrorMessage; }
+            set
+            {
+                this.getScoresErrorMessage = value;
+                this.OnPropertyChanged("ErrorMessage");
+            }
+        }
+
         public ICommand RetrieveScores
         {
             get
@@ -153,7 +171,55 @@
 
         public void UpdateScore()
         {
-            this.scoreManager.UploadScore(this);
+            try
+            {
+                this.scoreManager.UploadScore(this);
+            }
+            catch (HttpRequestException he)
+            {
+            }
+            catch (Parse.ParseException pe)
+            {
+            }
+            catch(Exception){}
+        }
+
+        public async void LoadScores()
+        {
+            try
+            {
+                var fetchedScores = await this.scoreManager.GetScoresPage(ScoresPerPage, this.ScorePage);
+                var parsedScores = fetchedScores.AsQueryable().Select(HighScoreViewModel.FromHighScore).ToList();
+                int startPlace = ScoresPerPage * (this.ScorePage - 1) + 1;
+                int count = 0;
+                foreach (var result in parsedScores)
+                {
+                    result.Place = startPlace;
+                    startPlace++;
+                    count++;
+                }
+
+                this.ErrorMessage = string.Empty;
+                this.isNetworkExceptionOccurred = false;
+                this.SetPageButtonsAvailabiluty(count);
+                this.Scores = parsedScores;
+            }
+            catch (HttpRequestException he)
+            {
+                if (!this.isNetworkExceptionOccurred)
+                {
+                    this.isNetworkExceptionOccurred = true;
+                    this.ErrorMessage = UnableToConnectToInternetMessage;
+                }
+            }
+            catch (Parse.ParseException pe)
+            {
+                if (!this.isNetworkExceptionOccurred)
+                {
+                    this.isNetworkExceptionOccurred = true;
+                    this.ErrorMessage = UnableToGetScoresMessage;
+                }
+            }
         }
 
         private void PerformGetScores(object obj)
@@ -172,23 +238,6 @@
 
                 this.LoadScores();
             }
-        }
-
-        public async void LoadScores()
-        {
-            var fetchedScores = await this.scoreManager.GetScoresPage(ScoresPerPage, this.ScorePage);
-            var parsedScores = fetchedScores.AsQueryable().Select(HighScoreViewModel.FromHighScore).ToList();
-            int startPlace = ScoresPerPage * (this.ScorePage - 1) + 1;
-            int count = 0;
-            foreach (var result in parsedScores)
-            {
-                result.Place = startPlace;
-                startPlace++;
-                count++;
-            }
-
-            this.SetPageButtonsAvailabiluty(count);
-            this.Scores = parsedScores;
         }
 
         private void SetPageButtonsAvailabiluty(int count)

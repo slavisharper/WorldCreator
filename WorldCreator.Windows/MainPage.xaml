@@ -24,6 +24,7 @@
         <Grid Name="MainMenu"
               Grid.Column="0"
               Style="{StaticResource MainMenuContainerStyle}">
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="2*"/>
@@ -100,7 +101,7 @@
                               HorizontalAlignment="Left">
                     <ListView SelectionMode="None"
                               HorizontalAlignment="Center"
-                        ItemsSource="{Binding SelectedGroup.Items}" >
+                              ItemsSource="{Binding SelectedGroup.Items}" >
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Vertical"/>

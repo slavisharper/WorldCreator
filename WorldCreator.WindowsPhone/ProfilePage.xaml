@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Style="{StaticResource LighBlueBackgroundTheme}">
         <views:Profile DataContext="{Binding Player}"/>
     </Grid>
 </Page>

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Net.Http;
     using Windows.Foundation;
     using WorldCreator.Common;
     using WorldCreator.Data;
@@ -25,6 +26,7 @@
         private double startedMoveLeft;
         private double startedMoveTop;
         private Animator animator;
+        private bool gameIsLoading;
 
         public GameViewModel()
             : this(new List<ItemViewModel>(), new ObservableCollection<GroupViewModel>(),
@@ -143,6 +145,16 @@
                 }
 
                 item.IsSelected = false;
+            }
+        }
+
+        public bool IsLoading
+        {
+            get { return this.gameIsLoading; }
+            set
+            {
+                this.gameIsLoading = value;
+                this.OnPropertyChanged("IsLoading");
             }
         }
 

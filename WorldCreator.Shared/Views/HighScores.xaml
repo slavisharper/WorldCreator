@@ -9,7 +9,7 @@
     d:DesignHeight="800"
     d:DesignWidth="400">
 
-    <Grid MaxWidth="500" MinWidth="400"
+    <Grid MaxWidth="600" MinWidth="360"
            Style="{StaticResource LighBlueBackgroundTheme}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="10*"/>
@@ -20,30 +20,91 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+
+        <TextBlock Text="{Binding ErrorMessage}"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="3"
+                   FontSize="30"
+                   Style="{StaticResource CenteredText}"/>
         <ListView Grid.Row="0"
                   Grid.Column="0"
                   Grid.ColumnSpan="3"
                   SelectionMode="None"
                   VerticalAlignment="Center"
                   ItemsSource="{Binding Scores}">
+            <ListView.HeaderTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition  Width="1*"/>
+                            <ColumnDefinition  Width="3*"/>
+                            <ColumnDefinition  Width="1*"/>
+                            <ColumnDefinition  Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock MinWidth="50"
+                                   HorizontalAlignment="Stretch"
+                                   Grid.Column="0"
+                                   Style="{StaticResource ScoreTextStyle}"
+                                   FontSize="20"
+                                   Text="Place"/>
+                        <TextBlock MinWidth="200"
+                                   HorizontalAlignment="Stretch"
+                                   Grid.Column="1"
+                                   FontSize="20"
+                                   Style="{StaticResource ScoreTextStyle}"
+                                   Text="Name"/>
+                        <TextBlock MinWidth="50"
+                                   Grid.Column="2"
+                                   FontSize="20"
+                                   HorizontalAlignment="Stretch"
+                                   Style="{StaticResource ScoreTextStyle}"
+                                   TextAlignment="Right"
+                                   Text="Count"/>
+                        <TextBlock MinWidth="50"
+                                   Grid.Column="3"
+                                   FontSize="20"
+                                   HorizontalAlignment="Stretch"
+                                   TextAlignment="Right"
+                                   Style="{StaticResource ScoreTextStyle}"
+                                   Text="Points"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal"
-                                Margin="20, 5, 20, 5"
-                                VerticalAlignment="Center">
+                    <Grid Margin="20, 5, 20, 5"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition  Width="1*"/>
+                            <ColumnDefinition  Width="3*"/>
+                            <ColumnDefinition  Width="1*"/>
+                            <ColumnDefinition  Width="1*"/>
+                        </Grid.ColumnDefinitions>
                         <TextBlock MinWidth="50"
+                                   HorizontalAlignment="Stretch"
+                                   Grid.Column="0"
                                    Style="{StaticResource ScoreTextStyle}"
                                    Text="{Binding Place}"/>
                         <TextBlock MinWidth="200"
+                                   HorizontalAlignment="Stretch"
+                                   Grid.Column="1"
                                    Style="{StaticResource ScoreTextStyle}"
                                    Text="{Binding Name}"/>
                         <TextBlock MinWidth="50"
+                                   Grid.Column="2"
+                                   HorizontalAlignment="Stretch"
                                    Style="{StaticResource ScoreTextStyle}"
+                                   TextAlignment="Right"
                                    Text="{Binding CombosCount}"/>
-                        <TextBlock MinWidth="50"
+                        <TextBlock MinWidth="60"
+                                   Grid.Column="3"
+                                   HorizontalAlignment="Stretch"
+                                   TextAlignment="Right"
                                    Style="{StaticResource ScoreTextStyle}"
                                    Text="{Binding Points}"/>
-                    </StackPanel>
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

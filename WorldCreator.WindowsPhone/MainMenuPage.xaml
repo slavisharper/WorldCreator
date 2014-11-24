@@ -14,15 +14,15 @@
         <converters:LogoFontSizeConverter x:Key="LogoFontSizeConverter" />
     </Page.Resources>
     
-    <Grid x:Name="LayoutRoot" DataContext="{Binding Game}">
+    <ScrollViewer x:Name="LayoutRoot" DataContext="{Binding Game}">
         <Grid Style="{StaticResource MainMenuContainerStyle}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="5*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Style="{StaticResource MainMenuLogoStyle}"
                        
@@ -65,5 +65,5 @@
                         Grid.Row="2"/>
             </Grid>
         </Grid>
-    </Grid>
+    </ScrollViewer>
 </Page>

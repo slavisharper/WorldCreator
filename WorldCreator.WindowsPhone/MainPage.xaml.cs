@@ -82,15 +82,8 @@ namespace WorldCreator
 
         private void PerformUserCommand(string name, ICommand command)
         {
-            if (name == null || name.Length < 3 || name.Length > 20)
-            {
-                // TO DO: Show alert
-            }
-            else
-            {
-                command.Execute(name);
-                Navigate();
-            }
+            command.Execute(name);
+            Navigate();
         }
         #endregion
     }

@@ -9,59 +9,83 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid Style="{StaticResource LighBlueBackgroundTheme}">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
         <TextBlock FontSize="32"
-                   Margin="5, 40, 5, 10"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
                    Text="Welcome to World Creator"
-                   HorizontalAlignment="Center"/>
+                   Style="{StaticResource CenteredText}"/>
 
         <ProgressRing Name="MainProgressRing"
+                      Grid.Row="1"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="2"
                       IsActive="{Binding IsLoading}"
                       Height="100"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Bottom"
-                      Width="100" Margin="0,0,0,400"/>
+                      Width="100"
+                      VerticalAlignment="Top" />
 
         <TextBlock Style="{StaticResource StartPageHeaderText}" 
-                   Margin="10, 10, 10, 330"
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
                    Text="Choose a profile"/>
 
-        <ComboBox 
+        <ComboBox Grid.Row="2"
+                  Grid.Column="0"
+                  Grid.RowSpan="3"
+                  Canvas.ZIndex="100"
                   Width="250"
-                  Name="PlayersComboBox"
-                  HorizontalAlignment="Left"
-                  Margin="10, 10, 10, 240"
                   FontSize="27"
-                  VerticalAlignment="Bottom"
+                  Name="PlayersComboBox"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Top"
+                  Margin="0, 30, 0, 0"
                   ItemsSource="{Binding PlayerNames}"/>
 
         <Button Content="Continue"
+                Name="ContinueButton"
                 FontSize="20"
                 Click="LogButton_Click"
-                HorizontalAlignment="Right"
-                 VerticalAlignment="Bottom"
-                Margin="10, 10, 10, 240"
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="0, 30, 0, 0"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Top"
                 />
 
         <TextBlock Style="{StaticResource StartPageHeaderText}" 
-                   Margin="10, 10, 10, 130"
+                   Grid.Row="3"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
                    Text="Or create new one"/>
 
-        <TextBox HorizontalAlignment="Left"
-                 VerticalAlignment="Bottom"
+        <TextBox Grid.Row="4"
+                 Grid.Column="0"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
                  FontSize="30"
                  Name="InputPlayerName"
-                 TextAlignment="Center"
                  PlaceholderText="Username"
                  Height="50"
-                 Width="250"
-                 Margin="10, 10, 10, 60"/>
+                 Width="250"/>
         <Button Content="New"
                 FontSize="20"
                 Width="50"
-                HorizontalAlignment="Right"
-                Click="NewPlayerButton_Click"
-                VerticalAlignment="Bottom"
-                Margin="10, 10, 10, 58"
-                        />
+                Grid.Row="4"
+                Grid.Column="1"
+                Style="{StaticResource CenteredButton}"
+                Click="NewPlayerButton_Click"/>
     </Grid>
 </Page>
