@@ -37,32 +37,29 @@
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition  Width="1*"/>
-                            <ColumnDefinition  Width="3*"/>
-                            <ColumnDefinition  Width="1*"/>
-                            <ColumnDefinition  Width="1*"/>
+                            <ColumnDefinition  />
+                            <ColumnDefinition  />
+                            <ColumnDefinition  />
+                            <ColumnDefinition  />
                         </Grid.ColumnDefinitions>
-                        <TextBlock MinWidth="50"
-                                   HorizontalAlignment="Stretch"
+                        <TextBlock HorizontalAlignment="Stretch"
                                    Grid.Column="0"
                                    Style="{StaticResource ScoreTextStyle}"
                                    FontSize="20"
                                    Text="Place"/>
-                        <TextBlock MinWidth="200"
+                        <TextBlock 
                                    HorizontalAlignment="Stretch"
                                    Grid.Column="1"
                                    FontSize="20"
                                    Style="{StaticResource ScoreTextStyle}"
                                    Text="Name"/>
-                        <TextBlock MinWidth="50"
-                                   Grid.Column="2"
+                        <TextBlock Grid.Column="2"
                                    FontSize="20"
                                    HorizontalAlignment="Stretch"
                                    Style="{StaticResource ScoreTextStyle}"
                                    TextAlignment="Right"
                                    Text="Count"/>
-                        <TextBlock MinWidth="50"
-                                   Grid.Column="3"
+                        <TextBlock Grid.Column="3"
                                    FontSize="20"
                                    HorizontalAlignment="Stretch"
                                    TextAlignment="Right"
@@ -77,10 +74,10 @@
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition  Width="1*"/>
-                            <ColumnDefinition  Width="3*"/>
-                            <ColumnDefinition  Width="1*"/>
-                            <ColumnDefinition  Width="1*"/>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="5*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
                         </Grid.ColumnDefinitions>
                         <TextBlock MinWidth="50"
                                    HorizontalAlignment="Stretch"

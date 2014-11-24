@@ -125,7 +125,8 @@
             string name = obj as string;
             if (name == null || name.Length < 3)
             {
-                // TO DO Show alert
+                await this.ShowMessage("No profile was selected!", "Please choose a profile or create a new one.");
+                this.IsLoading = false;
             }
             else
             {
